@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Appraisal</title></head>
+<body style="font-family: Arial; padding: 20px;">
+    <h1>New Appraisal</h1>
+    <form action="/add-appraisal" method="POST">
+        <label>Performance Cycle:</label>
+        <select name="Cycle_ID">
+            <% cycles.forEach(cycle => { %>
+                <option value="<%= cycle.Cycle_ID %>"><%= cycle.Cycle_Name %></option>
+            <% }) %>
+        </select><br><br>
+
+        <label>Employee (Assignment):</label>
+        <select name="Assignment_ID">
+            <% assignments.forEach(assign => { %>
+                <option value="<%= assign.Assignment_ID %>">
+                    <%= assign.Employee ? assign.Employee.First_Name : 'Unknown' %> - <%= assign.Job ? assign.Job.Job_Title : 'Unknown' %>
+                </option>
+            <% }) %>
+        </select><br><br>
+
+        <label>Score (0-100):</label>
+        <input type="number" step="0.01" name="Overall_Score"><br><br>
+        
+        <label>Comments:</label>
+        <input type="text" name="Manager_Comments"><br><br>
+        
+        <label>Date:</label>
+        <input type="date" name="Appraisal_Date"><br><br>
+
+        <button type="submit">Submit Appraisal</button>
+    </form>
+</body>
+</html>

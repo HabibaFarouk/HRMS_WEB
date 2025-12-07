@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Job</title></head>
+<body style="font-family: Arial; padding: 20px;">
+    <h1>Add New Job</h1>
+    <form action="/add-job" method="POST">
+        <input type="text" name="Job_Title" placeholder="Job Title" required><br><br>
+        <select name="Job_Level">
+            <option value="Entry">Entry</option>
+            <option value="Mid">Mid</option>
+            <option value="Senior">Senior</option>
+            <option value="Executive">Executive</option>
+        </select><br><br>
+        <input type="number" name="Min_Salary" placeholder="Min Salary"><br><br>
+        <input type="number" name="Max_Salary" placeholder="Max Salary"><br><br>
+        <button type="submit">Save Job</button>
+    </form>
+</body>
+</html>

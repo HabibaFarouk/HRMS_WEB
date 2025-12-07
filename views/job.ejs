@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Navigation Bar */
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; font-size: 1.1em; }
+        .nav-bar a:hover { color: #007bff; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #6f42c1; /* Purple for Jobs */ color: white; }
+        tr:hover { background-color: #f1f1f1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/">Employees</a>
+            <a href="/departments">Departments</a>
+            <a href="/jobs" style="color: #007bff;">Jobs</a>
+        </div>
+
+        <h1>Job Positions Directory</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Level</th>
+                    <th>Salary Range</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(jobs.length === 0) { %>
+                    <tr><td colspan="3">No jobs found.</td></tr>
+                <% } else { %>
+                    <% jobs.forEach(job => { %>
+                    <tr>
+                        <td><strong><%= job.Job_Title %></strong></td>
+                        <td><%= job.Job_Level %></td>
+                        <td>$<%= job.Min_Salary %> - $<%= job.Max_Salary %></td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: right; margin-bottom: 15px;">
+    <a href="/add-job" style="background-color: #6f42c1; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add Job</a>
+</div>
+</body>
+</html>

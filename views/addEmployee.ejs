@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Employee</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add New Employee</h2>
+        
+        <form action="/add-employee" method="POST">
+            <label>Employee ID:</label>
+            <input type="number" name="Employee_ID" required placeholder="e.g. 1001">
+
+            <label>First Name:</label>
+            <input type="text" name="First_Name" required>
+
+            <label>Last Name:</label>
+            <input type="text" name="Last_Name" required>
+
+            <label>Email:</label>
+            <input type="email" name="Work_Email">
+
+            <label>Status:</label>
+            <select name="Employment_Status">
+                <option value="Active">Active</option>
+                <option value="Probation">Probation</option>
+                <option value="Leave">Leave</option>
+            </select>
+
+            <button type="submit">Save Employee</button>
+        </form>
+        
+        <br>
+        <a href="/">Cancel</a>
+    </div>
+</body>
+</html>

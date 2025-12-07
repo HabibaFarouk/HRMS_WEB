@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Performance Cycle</title></head>
+<body style="font-family: Arial; padding: 20px;">
+    <h1>Create Performance Cycle</h1>
+    <form action="/add-cycle" method="POST">
+        <input type="number" name="Cycle_ID" placeholder="ID (e.g. 202501)" required><br><br>
+        <input type="text" name="Cycle_Name" placeholder="Name (e.g. Q1 2025)" required><br><br>
+        <label>Start Date:</label> <input type="date" name="Start_Date"><br><br>
+        <label>End Date:</label> <input type="date" name="End_Date"><br><br>
+        <button type="submit">Create Cycle</button>
+    </form>
+</body>
+</html>

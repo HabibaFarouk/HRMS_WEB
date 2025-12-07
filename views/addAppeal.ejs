@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Appeal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #dc3545; }
+        input, textarea, button { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ddd; box-sizing: border-box; }
+        button { background-color: #dc3545; color: white; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File an Appeal</h1>
+        <p>You are appealing Appraisal ID: <strong><%= appraisalID %></strong></p>
+
+        <form action="/add-appeal" method="POST">
+            <input type="hidden" name="Appraisal_ID" value="<%= appraisalID %>">
+            
+            <label>Reason for Appeal:</label>
+            <textarea name="Reason" rows="4" placeholder="Why do you disagree with this score?" required></textarea>
+            
+            <label>Submission Date:</label>
+            <input type="date" name="Submission_Date" required>
+
+            <button type="submit">Submit Appeal</button>
+        </form>
+    </div>
+</body>
+</html>

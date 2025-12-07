@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Training</title></head>
+<body style="font-family: Arial; padding: 20px;">
+    <h1>Add Training Program</h1>
+    <form action="/add-training" method="POST">
+        <input type="text" name="Program_Code" placeholder="Code (e.g. TR-101)"><br><br>
+        <input type="text" name="Title" placeholder="Title" required><br><br>
+        <select name="Type">
+            <option value="Internal">Internal</option>
+            <option value="External">External</option>
+            <option value="Online">Online</option>
+        </select><br><br>
+        <button type="submit">Save Training</button>
+    </form>
+</body>
+</html>

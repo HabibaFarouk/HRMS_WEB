@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        
+        /* Navigation Bar */
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
+        .nav-bar a:hover { color: #007bff; }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .status { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
+        .Active { background-color: #28a745; }
+        .Probation { background-color: #ffc107; color: black; }
+        .Leave { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/" style="color: #007bff;">Employees</a>
+            <a href="/departments">Departments</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/assignments">Assignments</a>
+            <a href="/training">Training</a>
+            <a href="/performance">Performance</a>
+        </div>
+
+        <h1>Employee Directory</h1>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+            <a href="/add-employee" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add New Employee</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(employees.length === 0) { %>
+                    <tr><td colspan="4">No employees found.</td></tr>
+                <% } else { %>
+                    <% employees.forEach(emp => { %>
+                    <tr>
+                        <td><%= emp.Employee_ID %></td>
+                        <td><%= emp.First_Name %> <%= emp.Last_Name %></td>
+                        <td><%= emp.Work_Email %></td>
+                        <td>
+                            <span class="status <%= emp.Employment_Status %>">
+                                <%= emp.Employment_Status %>
+                            </span>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

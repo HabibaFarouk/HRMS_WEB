@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Navigation Bar */
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 15px; font-weight: bold; }
+        .nav-bar a:hover { color: #007bff; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #17a2b8; /* Cyan for Performance */ color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .score-box { font-weight: bold; padding: 5px; background: #eee; border-radius: 4px; }
+        .appeal-status { font-size: 0.9em; color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/">Employees</a>
+            <a href="/departments">Departments</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/assignments">Assignments</a>
+            <a href="/training">Training</a>
+            <a href="/performance" style="color: #007bff;">Performance</a>
+        </div>
+
+        <h1>Performance Appraisals & Appeals</h1>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+            <a href="/add-cycle" style="background-color: #6c757d; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-right: 10px;">+ New Cycle</a>
+            <a href="/add-appraisal" style="background-color: #17a2b8; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ New Appraisal</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Cycle</th>
+                    <th>Employee</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Comments</th>
+                    <th>Appeal Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(appraisals.length === 0) { %>
+                    <tr><td colspan="6">No performance records found.</td></tr>
+                <% } else { %>
+                    <% appraisals.forEach(appr => { %>
+                    <tr>
+                        <td><%= appr.PerformanceCycle ? appr.PerformanceCycle.Cycle_Name : 'N/A' %></td>
+                        <td>
+                            <% if (appr.JobAssignment && appr.JobAssignment.Employee) { %>
+                                <%= appr.JobAssignment.Employee.First_Name %> <%= appr.JobAssignment.Employee.Last_Name %>
+                            <% } else { %>
+                                Unknown Employee
+                            <% } %>
+                        </td>
+                        <td><%= appr.Appraisal_Date %></td>
+                        <td><span class="score-box"><%= appr.Overall_Score %></span></td>
+                        <td><%= appr.Manager_Comments %></td>
+                        <td>
+                            <% if (appr.Appeal) { %>
+                                <span class="appeal-status">Appeal: <%= appr.Appeal.Approval_Status %></span>
+                            <% } else { %>
+                                <a href="/add-appeal/<%= appr.Appraisal_ID %>" 
+                                   style="background-color: #dc3545; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px; font-size: 0.8em;">
+                                   File Appeal
+                                </a>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

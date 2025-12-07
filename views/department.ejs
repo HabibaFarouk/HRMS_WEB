@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        /* Reusing your existing CSS for consistency */
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        
+        /* Navigation Menu */
+        .nav-bar { margin-bottom: 20px; }
+        .nav-bar a { text-decoration: none; color: #007bff; margin-right: 15px; font-weight: bold; }
+        .nav-bar a:hover { text-decoration: underline; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #28a745; /* Green for Depts to differentiate */ color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
+        .Academic { background-color: #007bff; }
+        .Administrative { background-color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/">Employees</a>
+            <a href="/departments">Departments</a>
+        </div>
+
+        <h1>Department Directory</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% departments.forEach(dept => { %>
+                <tr>
+                    <td><%= dept.Department_ID %></td>
+                    <td><strong><%= dept.Department_Name %></strong></td>
+                    <td><span class="badge <%= dept.Department_Type %>"><%= dept.Department_Type %></span></td>
+                    <td><%= dept.Location %></td>
+                    <td><%= dept.Contact_Email %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        
+    </div>
+    <a href="/add-department" style="background: blue; color: white; padding: 10px;">+ Add Department</a>
+<br><br>
+</body>
+</html>

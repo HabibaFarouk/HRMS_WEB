@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
+        .nav-bar a:hover { color: #007bff; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #e83e8c; /* Pink for Assignments */ color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .status { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
+        .Active { background-color: #28a745; }
+        .Inactive { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/">Employees</a>
+            <a href="/departments">Departments</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/assignments" style="color: #007bff;">Assignments</a>
+        </div>
+
+        <h1>Employee Job Assignments</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Job Title</th>
+                    <th>Start Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(assignments.length === 0) { %>
+                    <tr><td colspan="4">No assignments found.</td></tr>
+                <% } else { %>
+                    <% assignments.forEach(assign => { %>
+                    <tr>
+                        <td>
+                            <%= assign.Employee ? assign.Employee.First_Name + ' ' + assign.Employee.Last_Name : 'Unknown Employee' %>
+                        </td>
+                        <td>
+                            <%= assign.Job ? assign.Job.Job_Title : 'Unknown Job' %>
+                        </td>
+                        <td><%= assign.Start_Date %></td>
+                        <td>
+                            <span class="status <%= assign.Status %>"><%= assign.Status %></span>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: right; margin-bottom: 15px;">
+    <a href="/add-assignment" style="background-color: #e83e8c; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Assign Job</a>
+</div>
+</body>
+</html>

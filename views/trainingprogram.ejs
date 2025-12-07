@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= pageTitle %></title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        
+        /* Navigation Bar */
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
+        .nav-bar a:hover { color: #007bff; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background-color: #fd7e14; /* Orange for Training */ color: white; }
+        tr:hover { background-color: #f1f1f1; }
+        
+        .badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; background-color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-bar">
+            <a href="/">Employees</a>
+            <a href="/departments">Departments</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/assignments">Assignments</a>
+            <a href="/training" style="color: #007bff;">Training</a>
+        </div>
+
+        <h1>Training Programs</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Delivery</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(programs.length === 0) { %>
+                    <tr><td colspan="5">No training programs found.</td></tr>
+                <% } else { %>
+                    <% programs.forEach(prog => { %>
+                    <tr>
+                        <td><%= prog.Program_Code %></td>
+                        <td><strong><%= prog.Title %></strong></td>
+                        <td><%= prog.Type %></td>
+                        <td><%= prog.Delivery_Method %></td>
+                        <td><span class="badge"><%= prog.Approval_Status %></span></td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div style="text-align: right; margin-bottom: 15px;">
+    <a href="/add-training" style="background-color: #fd7e14; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add Program</a>
+</div>
+</body>
+</html>

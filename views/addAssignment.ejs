@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Assignment</title></head>
+<body style="font-family: Arial; padding: 20px;">
+    <h1>Assign Job to Employee</h1>
+    <form action="/add-assignment" method="POST">
+        <label>Employee:</label>
+        <select name="Employee_ID" required>
+            <% employees.forEach(emp => { %>
+                <option value="<%= emp.Employee_ID %>"><%= emp.First_Name %> <%= emp.Last_Name %></option>
+            <% }) %>
+        </select><br><br>
+        
+        <label>Job:</label>
+        <select name="Job_ID" required>
+            <% jobs.forEach(job => { %>
+                <option value="<%= job.Job_ID %>"><%= job.Job_Title %></option>
+            <% }) %>
+        </select><br><br>
+
+        <label>Start Date:</label>
+        <input type="date" name="Start_Date" required><br><br>
+        
+        <label>Status:</label>
+        <select name="Status">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select><br><br>
+
+        <button type="submit">Create Assignment</button>
+    </form>
+</body>
+</html>
