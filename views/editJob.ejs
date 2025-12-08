@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Job</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+        button { background-color: #ffc107; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Job Position</h1>
+        <form action="/edit-job" method="POST">
+            <input type="hidden" name="Job_ID" value="<%= job.Job_ID %>">
+
+            <label>Job Title</label>
+            <input type="text" name="Job_Title" value="<%= job.Job_Title %>" required>
+
+            <label>Level</label>
+            <select name="Job_Level">
+                <option value="Entry" <%= job.Job_Level === 'Entry' ? 'selected' : '' %>>Entry</option>
+                <option value="Mid" <%= job.Job_Level === 'Mid' ? 'selected' : '' %>>Mid</option>
+                <option value="Senior" <%= job.Job_Level === 'Senior' ? 'selected' : '' %>>Senior</option>
+                <option value="Executive" <%= job.Job_Level === 'Executive' ? 'selected' : '' %>>Executive</option>
+            </select>
+
+            <label>Min Salary</label>
+            <input type="number" name="Min_Salary" value="<%= job.Min_Salary %>">
+
+            <label>Max Salary</label>
+            <input type="number" name="Max_Salary" value="<%= job.Max_Salary %>">
+
+            <button type="submit">Update Job</button>
+        </form>
+        <a href="/jobs" style="display:block; text-align:center; margin-top:10px;">Cancel</a>
+    </div>
+</body>
+</html>

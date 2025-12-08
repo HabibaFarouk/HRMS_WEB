@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Department</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+        button { background-color: #ffc107; border: none; font-weight: bold; cursor: pointer; }
+        .back-link { display: block; text-align: center; margin-top: 10px; color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Department</h1>
+        <form action="/edit-department" method="POST">
+            <label>Department ID (Read Only)</label>
+            <input type="number" name="Department_ID" value="<%= dept.Department_ID %>" readonly style="background: #e9ecef;">
+
+            <label>Department Name</label>
+            <input type="text" name="Department_Name" value="<%= dept.Department_Name %>" required>
+
+            <label>Type</label>
+            <select name="Department_Type">
+                <option value="Academic" <%= dept.Department_Type === 'Academic' ? 'selected' : '' %>>Academic</option>
+                <option value="Administrative" <%= dept.Department_Type === 'Administrative' ? 'selected' : '' %>>Administrative</option>
+            </select>
+
+            <label>Location</label>
+            <input type="text" name="Location" value="<%= dept.Location %>">
+
+            <label>Contact Email</label>
+            <input type="email" name="Contact_Email" value="<%= dept.Contact_Email %>">
+
+            <button type="submit">Update Department</button>
+        </form>
+        <a href="/departments" class="back-link">Cancel</a>
+    </div>
+</body>
+</html>

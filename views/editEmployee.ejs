@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Full Employee Profile</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        
+        /* Grid Layout for Form */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        
+        .section-title { grid-column: span 2; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 20px; color: #007bff; font-weight: bold; }
+        
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        
+        button { width: 100%; padding: 15px; background-color: #ffc107; color: black; border: none; border-radius: 4px; font-size: 18px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        button:hover { background-color: #e0a800; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Employee Profile</h1>
+        
+        <form action="/edit-employee" method="POST">
+            <div class="form-grid">
+                
+                <div class="section-title">System Information</div>
+                
+                <div>
+                    <label>Employee ID (Read Only)</label>
+                    <input type="number" name="Employee_ID" value="<%= emp.Employee_ID %>" readonly style="background: #e9ecef;">
+                </div>
+                <div>
+                    <label>Employment Status</label>
+                    <select name="Employment_Status">
+                        <option value="Active" <%= emp.Employment_Status === 'Active' ? 'selected' : '' %>>Active</option>
+                        <option value="Probation" <%= emp.Employment_Status === 'Probation' ? 'selected' : '' %>>Probation</option>
+                        <option value="Leave" <%= emp.Employment_Status === 'Leave' ? 'selected' : '' %>>Leave</option>
+                        <option value="Retired" <%= emp.Employment_Status === 'Retired' ? 'selected' : '' %>>Retired</option>
+                    </select>
+                </div>
+
+                <div class="section-title">Personal Information</div>
+                
+                <div><label>First Name</label><input type="text" name="First_Name" value="<%= emp.First_Name %>"></div>
+                <div><label>Middle Name</label><input type="text" name="Middle_Name" value="<%= emp.Middle_Name || '' %>"></div>
+                <div><label>Last Name</label><input type="text" name="Last_Name" value="<%= emp.Last_Name %>"></div>
+                <div><label>Arabic Name</label><input type="text" name="Arabic_Name" value="<%= emp.Arabic_Name || '' %>"></div>
+                
+                <div>
+                    <label>Gender</label>
+                    <select name="Gender">
+                        <option value="Male" <%= emp.Gender === 'Male' ? 'selected' : '' %>>Male</option>
+                        <option value="Female" <%= emp.Gender === 'Female' ? 'selected' : '' %>>Female</option>
+                    </select>
+                </div>
+                <div><label>Nationality</label><input type="text" name="Nationality" value="<%= emp.Nationality || '' %>"></div>
+                <div><label>Date of Birth</label><input type="date" name="DOB" value="<%= emp.DOB %>"></div>
+                <div><label>Place of Birth</label><input type="text" name="Place_of_Birth" value="<%= emp.Place_of_Birth || '' %>"></div>
+                <div><label>Marital Status</label><input type="text" name="Marital_Status" value="<%= emp.Marital_Status || '' %>"></div>
+                <div><label>Religion</label><input type="text" name="Religion" value="<%= emp.Religion || '' %>"></div>
+
+                <div class="section-title">Contact Information</div>
+                
+                <div><label>Mobile Phone</label><input type="text" name="Mobile_Phone" value="<%= emp.Mobile_Phone || '' %>"></div>
+                <div><label>Work Phone</label><input type="text" name="Work_Phone" value="<%= emp.Work_Phone || '' %>"></div>
+                <div><label>Work Email</label><input type="email" name="Work_Email" value="<%= emp.Work_Email || '' %>"></div>
+                <div><label>Personal Email</label><input type="email" name="Personal_Email" value="<%= emp.Personal_Email || '' %>"></div>
+
+                <div class="section-title">Residential Address</div>
+                
+                <div><label>Street</label><input type="text" name="Residential_Street" value="<%= emp.Residential_Street || '' %>"></div>
+                <div><label>Area</label><input type="text" name="Residential_Area" value="<%= emp.Residential_Area || '' %>"></div>
+                <div><label>City</label><input type="text" name="Residential_City" value="<%= emp.Residential_City || '' %>"></div>
+                <div><label>Country</label><input type="text" name="Residential_Country" value="<%= emp.Residential_Country || '' %>"></div>
+
+                <div class="section-title">Permanent Address</div>
+                
+                <div><label>Street</label><input type="text" name="Permanent_Street" value="<%= emp.Permanent_Street || '' %>"></div>
+                <div><label>Area</label><input type="text" name="Permanent_Area" value="<%= emp.Permanent_Area || '' %>"></div>
+                <div><label>City</label><input type="text" name="Permanent_City" value="<%= emp.Permanent_City || '' %>"></div>
+                <div><label>Country</label><input type="text" name="Permanent_Country" value="<%= emp.Permanent_Country || '' %>"></div>
+
+                <div class="section-title">Emergency Contact</div>
+                
+                <div class="full-width"><label>Contact Name</label><input type="text" name="Emergency_Contact_Name" value="<%= emp.Emergency_Contact_Name || '' %>"></div>
+                <div><label>Relationship</label><input type="text" name="Emergency_Contact_Relationship" value="<%= emp.Emergency_Contact_Relationship || '' %>"></div>
+                <div><label>Phone</label><input type="text" name="Emergency_Contact_Phone" value="<%= emp.Emergency_Contact_Phone || '' %>"></div>
+                
+                <div class="section-title">Legal & Medical</div>
+                
+                <div><label>Medical Clearance</label><input type="text" name="Medical_Clearance_Status" value="<%= emp.Medical_Clearance_Status || '' %>"></div>
+                <div><label>Criminal Status</label><input type="text" name="Criminal_Status" value="<%= emp.Criminal_Status || '' %>"></div>
+
+                <div class="full-width">
+                    <button type="submit">Update Full Profile</button>
+                </div>
+            </div>
+        </form>
+
+        <a href="/" class="back-link">Cancel</a>
+    </div>
+</body>
+</html>

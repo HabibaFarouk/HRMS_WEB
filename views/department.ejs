@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <title><%= pageTitle %></title>
     <style>
-        /* Reusing your existing CSS for consistency */
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
         .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         h1 { color: #333; }
-        
-        /* Navigation Menu */
-        .nav-bar { margin-bottom: 20px; }
-        .nav-bar a { text-decoration: none; color: #007bff; margin-right: 15px; font-weight: bold; }
-        .nav-bar a:hover { text-decoration: underline; }
-
+        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
+        .nav-bar a:hover { color: #007bff; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
-        th { background-color: #28a745; /* Green for Depts to differentiate */ color: white; }
+        th { background-color: #28a745; color: white; }
         tr:hover { background-color: #f1f1f1; }
-        
         .badge { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
         .Academic { background-color: #007bff; }
         .Administrative { background-color: #6c757d; }
+        .btn-edit { background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 0.9em; font-weight: bold; margin-right: 5px; }
+        .btn-delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="nav-bar">
             <a href="/">Employees</a>
-            <a href="/departments">Departments</a>
+            <a href="/departments" style="color: #007bff;">Departments</a>
+            <a href="/jobs">Jobs</a>
+            <a href="/assignments">Assignments</a>
+            <a href="/training">Training</a>
+            <a href="/performance">Performance</a>
         </div>
 
         <h1>Department Directory</h1>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+            <a href="/add-department" style="background-color: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add Department</a>
+        </div>
         
         <table>
             <thead>
@@ -40,7 +45,7 @@
                     <th>Name</th>
                     <th>Type</th>
                     <th>Location</th>
-                    <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,14 +55,18 @@
                     <td><strong><%= dept.Department_Name %></strong></td>
                     <td><span class="badge <%= dept.Department_Type %>"><%= dept.Department_Type %></span></td>
                     <td><%= dept.Location %></td>
-                    <td><%= dept.Contact_Email %></td>
+                    <td>
+                        <a href="/edit-department/<%= dept.Department_ID %>" class="btn-edit">Edit</a>
+                        
+                        <form action="/delete-department" method="POST" style="display:inline;" onsubmit="return confirm('Delete this department?');">
+                            <input type="hidden" name="Department_ID" value="<%= dept.Department_ID %>">
+                            <button type="submit" class="btn-delete">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
         </table>
-        
     </div>
-    <a href="/add-department" style="background: blue; color: white; padding: 10px;">+ Add Department</a>
-<br><br>
 </body>
 </html>

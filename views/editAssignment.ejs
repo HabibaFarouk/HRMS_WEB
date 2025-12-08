@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Assignment</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+        button { background-color: #ffc107; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Job Assignment</h1>
+        <form action="/edit-assignment" method="POST">
+            <input type="hidden" name="Assignment_ID" value="<%= assign.Assignment_ID %>">
+
+            <label>Employee</label>
+            <select name="Employee_ID">
+                <% employees.forEach(emp => { %>
+                    <option value="<%= emp.Employee_ID %>" <%= assign.Employee_ID === emp.Employee_ID ? 'selected' : '' %>>
+                        <%= emp.First_Name %> <%= emp.Last_Name %>
+                    </option>
+                <% }) %>
+            </select>
+
+            <label>Job Title</label>
+            <select name="Job_ID">
+                <% jobs.forEach(job => { %>
+                    <option value="<%= job.Job_ID %>" <%= assign.Job_ID === job.Job_ID ? 'selected' : '' %>>
+                        <%= job.Job_Title %>
+                    </option>
+                <% }) %>
+            </select>
+
+            <label>Start Date</label>
+            <input type="date" name="Start_Date" value="<%= assign.Start_Date %>">
+
+            <label>End Date</label>
+            <input type="date" name="End_Date" value="<%= assign.End_Date %>">
+
+            <label>Status</label>
+            <select name="Status">
+                <option value="Active" <%= assign.Status === 'Active' ? 'selected' : '' %>>Active</option>
+                <option value="Inactive" <%= assign.Status === 'Inactive' ? 'selected' : '' %>>Inactive</option>
+            </select>
+
+            <button type="submit">Update Assignment</button>
+        </form>
+        <a href="/assignments" style="display:block; text-align:center; margin-top:10px;">Cancel</a>
+    </div>
+</body>
+</html>

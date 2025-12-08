@@ -6,16 +6,19 @@
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
         .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        
-        /* Navigation Bar */
         .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
-        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; font-size: 1.1em; }
+        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
         .nav-bar a:hover { color: #007bff; }
         
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
-        th { background-color: #6f42c1; /* Purple for Jobs */ color: white; }
+        th { background-color: #6f42c1; color: white; }
         tr:hover { background-color: #f1f1f1; }
+
+        /* BUTTON STYLES */
+        .btn-add { background-color: #6f42c1; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-edit { background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 0.9em; font-weight: bold; margin-right: 5px; }
+        .btn-delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -24,9 +27,16 @@
             <a href="/">Employees</a>
             <a href="/departments">Departments</a>
             <a href="/jobs" style="color: #007bff;">Jobs</a>
+            <a href="/assignments">Assignments</a>
+            <a href="/training">Training</a>
+            <a href="/performance">Performance</a>
         </div>
 
         <h1>Job Positions Directory</h1>
+
+        <div style="text-align: right; margin-bottom: 15px;">
+            <a href="/add-job" class="btn-add">+ Add Job</a>
+        </div>
         
         <table>
             <thead>
@@ -34,25 +44,31 @@
                     <th>Title</th>
                     <th>Level</th>
                     <th>Salary Range</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <% if(jobs.length === 0) { %>
-                    <tr><td colspan="3">No jobs found.</td></tr>
+                    <tr><td colspan="4">No jobs found.</td></tr>
                 <% } else { %>
                     <% jobs.forEach(job => { %>
                     <tr>
                         <td><strong><%= job.Job_Title %></strong></td>
                         <td><%= job.Job_Level %></td>
                         <td>$<%= job.Min_Salary %> - $<%= job.Max_Salary %></td>
+                        <td>
+                            <a href="/edit-job/<%= job.Job_ID %>" class="btn-edit">Edit</a>
+
+                            <form action="/delete-job" method="POST" style="display:inline;" onsubmit="return confirm('Delete this job?');">
+                                <input type="hidden" name="Job_ID" value="<%= job.Job_ID %>">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                     <% }) %>
                 <% } %>
             </tbody>
         </table>
     </div>
-    <div style="text-align: right; margin-bottom: 15px;">
-    <a href="/add-job" style="background-color: #6f42c1; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add Job</a>
-</div>
 </body>
 </html>

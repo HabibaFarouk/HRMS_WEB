@@ -19,10 +19,22 @@
         th { background-color: #007bff; color: white; }
         tr:hover { background-color: #f1f1f1; }
         
+        /* Status Badges */
         .status { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
         .Active { background-color: #28a745; }
         .Probation { background-color: #ffc107; color: black; }
         .Leave { background-color: #dc3545; }
+        .Retired { background-color: #6c757d; }
+
+        /* Buttons */
+        .btn-add { background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .btn-add:hover { background-color: #0056b3; }
+
+        .btn-edit { background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none; margin-right: 5px; font-size: 0.9em; font-weight: bold; }
+        .btn-edit:hover { background-color: #e0a800; }
+
+        .btn-delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        .btn-delete:hover { background-color: #c82333; }
     </style>
 </head>
 <body>
@@ -39,7 +51,7 @@
         <h1>Employee Directory</h1>
 
         <div style="text-align: right; margin-bottom: 15px;">
-            <a href="/add-employee" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Add New Employee</a>
+            <a href="/add-employee" class="btn-add">+ Add New Employee</a>
         </div>
         
         <table>
@@ -49,11 +61,12 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <% if(employees.length === 0) { %>
-                    <tr><td colspan="4">No employees found.</td></tr>
+                    <tr><td colspan="5">No employees found.</td></tr>
                 <% } else { %>
                     <% employees.forEach(emp => { %>
                     <tr>
@@ -64,6 +77,14 @@
                             <span class="status <%= emp.Employment_Status %>">
                                 <%= emp.Employment_Status %>
                             </span>
+                        </td>
+                        <td>
+                            <a href="/edit-employee/<%= emp.Employee_ID %>" class="btn-edit">Edit</a>
+
+                            <form action="/delete-employee" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete <%= emp.First_Name %>? This cannot be undone.');">
+                                <input type="hidden" name="Employee_ID" value="<%= emp.Employee_ID %>">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
                         </td>
                     </tr>
                     <% }) %>

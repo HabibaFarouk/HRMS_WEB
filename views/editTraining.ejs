@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Training</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+        button { background-color: #ffc107; border: none; font-weight: bold; cursor: pointer; }
+        .back-link { display: block; text-align: center; margin-top: 10px; color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Training Program</h1>
+        <form action="/edit-training" method="POST">
+            <input type="hidden" name="Program_ID" value="<%= prog.Program_ID %>">
+
+            <label>Program Code</label>
+            <input type="text" name="Program_Code" value="<%= prog.Program_Code %>">
+
+            <label>Title</label>
+            <input type="text" name="Title" value="<%= prog.Title %>" required>
+
+            <label>Type</label>
+            <select name="Type">
+                <option value="Internal" <%= prog.Type === 'Internal' ? 'selected' : '' %>>Internal</option>
+                <option value="External" <%= prog.Type === 'External' ? 'selected' : '' %>>External</option>
+                <option value="Online" <%= prog.Type === 'Online' ? 'selected' : '' %>>Online</option>
+            </select>
+
+            <label>Delivery Method</label>
+            <select name="Delivery_Method">
+                <option value="In-person" <%= prog.Delivery_Method === 'In-person' ? 'selected' : '' %>>In-person</option>
+                <option value="Virtual" <%= prog.Delivery_Method === 'Virtual' ? 'selected' : '' %>>Virtual</option>
+            </select>
+
+            <button type="submit">Update Program</button>
+        </form>
+        <a href="/training" class="back-link">Cancel</a>
+    </div>
+</body>
+</html>
