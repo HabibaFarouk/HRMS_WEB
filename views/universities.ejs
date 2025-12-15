@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal | Universities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --main-bg: #f3f4f6;
+            --text-dark: #111827;
+            --accent-primary: #4f46e5;
+            --card-border: #e5e7eb;
+        }
+        
+        body { display: flex; min-height: 100vh; background-color: var(--main-bg); margin: 0; font-family: 'Segoe UI', sans-serif; }
+        
+        /* Quick Sidebar copy (essential styles only) */
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; display: flex; flex-direction: column; padding: 20px 0; }
+        .nav-links { list-style: none; padding: 0; }
+        .nav-links a { display: block; padding: 12px 24px; color: #cbd5e1; text-decoration: none; }
+        .nav-links a:hover { background: var(--sidebar-hover); color: white; }
+        
+        /* Main Content */
+        .main-content { flex: 1; padding: 30px 40px; }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-title { font-size: 24px; font-weight: bold; color: var(--text-dark); }
+        
+        .btn-add { 
+            background: var(--accent-primary); color: white; padding: 10px 20px; 
+            border-radius: 8px; text-decoration: none; font-weight: 500; 
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        
+        /* Table Styling */
+        .table-container { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8fafc; text-align: left; padding: 16px; font-size: 13px; color: #64748b; text-transform: uppercase; border-bottom: 1px solid var(--card-border); }
+        td { padding: 16px; border-bottom: 1px solid var(--card-border); color: #334155; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8fafc; }
+        
+        .action-btn { color: #64748b; margin-right: 10px; transition: color 0.2s; }
+        .action-btn:hover { color: var(--accent-primary); }
+        .delete-btn:hover { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div style="padding: 0 24px 30px; font-size: 22px; font-weight: 700;">HR Portal</div>
+        <ul class="nav-links">
+            <li><a href="/"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="/universities" style="background: rgba(255,255,255,0.1); color: white;"><i class="fas fa-landmark"></i> Universities</a></li>
+            <li><a href="/faculties"><i class="fas fa-school"></i> Faculties</a></li>
+            <li><a href="/employees"><i class="fas fa-users"></i> Employees</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Universities</h1>
+            <a href="/add-university" class="btn-add"><i class="fas fa-plus"></i> Add New University</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>University Name</th>
+                        <th>Acronym</th>
+                        <th>Established</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (typeof universities !== 'undefined' && universities.length > 0) { %>
+                        <% universities.forEach(uni => { %>
+                        <tr>
+                            <td>#<%= uni.University_ID %></td>
+                            <td style="font-weight: 600;"><%= uni.University_Name %></td>
+                            <td><span style="background:#e0e7ff; color:#4f46e5; padding:4px 8px; border-radius:4px; font-size:12px;"><%= uni.Acronym %></span></td>
+                            <td><%= uni.Established_Year %></td>
+                            <td>
+                                <a href="/edit-university/<%= uni.University_ID %>" class="action-btn"><i class="fas fa-edit"></i></a>
+                                <a href="/delete-university/<%= uni.University_ID %>" class="action-btn delete-btn" onclick="return confirm('Delete this university?')"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="5" style="text-align:center; padding: 30px;">No universities found.</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

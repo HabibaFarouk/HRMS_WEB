@@ -1,55 +1,31 @@
-// models/Employee.js
-const { DataTypes } = require('sequelize');
+const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
 
 const Employee = sequelize.define('Employee', {
-    Employee_ID: { 
-        type: DataTypes.INTEGER, 
+    Employee_ID: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: false 
+        autoIncrement: true
     },
-    First_Name: { type: DataTypes.STRING(50), allowNull: false },
-    Middle_Name: { type: DataTypes.STRING(50) },
-    Last_Name: { type: DataTypes.STRING(50), allowNull: false },
-    Arabic_Name: { type: DataTypes.STRING(50) },
-    Gender: { type: DataTypes.ENUM('Male', 'Female') },
-    Nationality: { type: DataTypes.STRING(64) },
-    DOB: { type: DataTypes.DATEONLY },
-    Place_of_Birth: { type: DataTypes.STRING(64) },
-    Marital_Status: { type: DataTypes.STRING(64) },
-    Religion: { type: DataTypes.STRING(20) },
+    First_Name: { type: Sequelize.STRING, allowNull: false },
+    Last_Name: { type: Sequelize.STRING, allowNull: false },
+    
+    // Correct Column Name from your screenshot
+    Work_Email: { type: Sequelize.STRING, unique: true },
+
+    // CRITICAL FIX: Changing 'Phone_Number' to 'Mobile_Phone'
+    Mobile_Phone: { type: Sequelize.STRING },
+    
+    Hire_Date: { type: Sequelize.DATEONLY },
+    Job_ID: { type: Sequelize.INTEGER },
+    Department_ID: { type: Sequelize.INTEGER },
+    Manager_ID: { type: Sequelize.INTEGER },
     Employment_Status: { 
-        type: DataTypes.ENUM('Active', 'Probation', 'Leave', 'Retired'),
-        allowNull: false 
-    },
-    Mobile_Phone: { type: DataTypes.STRING(20) },
-    Work_Phone: { type: DataTypes.STRING(20) },
-    Work_Email: { type: DataTypes.STRING(20) },
-    Personal_Email: { type: DataTypes.STRING(20) },
-    
-    // Emergency Contact
-    Emergency_Contact_Name: { type: DataTypes.STRING(50) },
-    Emergency_Contact_Phone: { type: DataTypes.STRING(20) },
-    Emergency_Contact_Relationship: { type: DataTypes.STRING(20) },
-    
-    // Residential Address
-    Residential_City: { type: DataTypes.STRING(20) },
-    Residential_Area: { type: DataTypes.STRING(20) },
-    Residential_Street: { type: DataTypes.STRING(20) },
-    Residential_Country: { type: DataTypes.STRING(20) },
-    
-    // Permanent Address
-    Permanent_City: { type: DataTypes.STRING(20) },
-    Permanent_Area: { type: DataTypes.STRING(20) },
-    Permanent_Street: { type: DataTypes.STRING(20) },
-    Permanent_Country: { type: DataTypes.STRING(20) },
-    
-    // Statuses
-    Medical_Clearance_Status: { type: DataTypes.STRING(50) },
-    Criminal_Status: { type: DataTypes.STRING(50) }
+        type: Sequelize.STRING, 
+        defaultValue: 'Active' 
+    }
 }, {
-    tableName: 'EMPLOYEE',
-    freezeTableName: true,
+    tableName: 'EMPLOYEE', // Matches your table
     timestamps: false
 });
 

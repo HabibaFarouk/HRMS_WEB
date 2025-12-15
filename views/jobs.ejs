@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Portal | Jobs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sidebar-bg: #1e293b; --main-bg: #f3f4f6; }
+        body { display: flex; min-height: 100vh; background: var(--main-bg); margin: 0; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px 0; }
+        .nav-links a { display: block; padding: 12px 24px; color: #cbd5e1; text-decoration: none; }
+        .nav-links a:hover { background: #334155; }
+        .main-content { flex: 1; padding: 30px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+        th { background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; background: #e0e7ff; color: #4338ca; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div style="padding:0 24px 30px; font-weight:700; font-size:22px;">HR Portal</div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/employees">Employees</a>
+            <a href="/jobs" style="background:rgba(255,255,255,0.1); color:white;">Jobs</a>
+            <a href="/assignments">Assignments</a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <h1>Job Roles</h1>
+        <table>
+            <thead><tr><th>Job Title</th><th>Min Salary</th><th>Max Salary</th><th>Level</th></tr></thead>
+            <tbody>
+                <% if(jobs.length) { jobs.forEach(j => { %>
+                <tr>
+                    <td><strong><%= j.Job_Title %></strong></td>
+                    <td>$<%= j.Min_Salary %></td>
+                    <td>$<%= j.Max_Salary %></td>
+                    <td><span class="badge">Standard</span></td>
+                </tr>
+                <% })} else { %> <tr><td colspan="4">No jobs found.</td></tr> <% } %>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

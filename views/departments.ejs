@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Portal | Departments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --sidebar-bg: #1e293b; --main-bg: #f3f4f6; --accent-primary: #4f46e5; }
+        body { display: flex; min-height: 100vh; background: var(--main-bg); margin: 0; font-family: 'Segoe UI', sans-serif; }
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px 0; display: flex; flex-direction: column; }
+        .nav-links a { display: block; padding: 12px 24px; color: #cbd5e1; text-decoration: none; }
+        .nav-links a:hover { background: #334155; }
+        .main-content { flex: 1; padding: 30px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 15px; border-bottom: 1px solid #e5e7eb; text-align: left; }
+        th { background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div style="padding:0 24px 30px; font-weight:700; font-size:22px;">HR Portal</div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/universities">Universities</a>
+            <a href="/faculties">Faculties</a>
+            <a href="/departments" style="background:rgba(255,255,255,0.1); color:white;">Departments</a>
+            <a href="/employees">Employees</a>
+        </div>
+    </aside>
+    <main class="main-content">
+        <h1>Departments</h1>
+        <table>
+            <thead><tr><th>ID</th><th>Department Name</th><th>Head of Dept</th><th>Email</th><th>Actions</th></tr></thead>
+            <tbody>
+                <% if(departments.length) { departments.forEach(d => { %>
+                <tr>
+                    <td><%= d.Department_ID %></td>
+                    <td><strong><%= d.Department_Name %></strong></td>
+                    <td><%= d.Head_Of_Department || 'N/A' %></td>
+                    <td><%= d.Contact_Email %></td>
+                    <td><a href="#" style="color:#4f46e5;">Edit</a></td>
+                </tr>
+                <% })} else { %> <tr><td colspan="5">No departments found.</td></tr> <% } %>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

@@ -2,43 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Employee</title>
+    <title>HR Portal | Add Employee</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
-        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer; }
+        :root { --sidebar-bg: #1e293b; --accent-primary: #4f46e5; --main-bg: #f3f4f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--main-bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        
+        .form-container {
+            background: white; width: 500px; padding: 40px; border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        h2 { margin-top: 0; color: #1e293b; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        input:focus { outline: none; border-color: var(--accent-primary); }
+
+        .btn-submit {
+            width: 100%; background: var(--accent-primary); color: white; border: none;
+            padding: 12px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px;
+        }
+        .btn-submit:hover { background: #4338ca; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Add New Employee</h2>
+
+    <div class="form-container">
+        <h2><i class="fas fa-user-plus"></i> Add New Employee</h2>
         
         <form action="/add-employee" method="POST">
-            <label>Employee ID:</label>
-            <input type="number" name="Employee_ID" required placeholder="e.g. 1001">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="First_Name" required>
+            </div>
 
-            <label>First Name:</label>
-            <input type="text" name="First_Name" required>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="Last_Name" required>
+            </div>
 
-            <label>Last Name:</label>
-            <input type="text" name="Last_Name" required>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="Email" required>
+            </div>
 
-            <label>Email:</label>
-            <input type="email" name="Work_Email">
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="Phone_Number">
+            </div>
 
-            <label>Status:</label>
-            <select name="Employment_Status">
-                <option value="Active">Active</option>
-                <option value="Probation">Probation</option>
-                <option value="Leave">Leave</option>
-            </select>
+            <div class="form-group">
+                <label>Hire Date</label>
+                <input type="date" name="Hire_Date" required>
+            </div>
 
-            <button type="submit">Save Employee</button>
+            <div class="form-group">
+                <label>Status</label>
+                <select name="Employment_Status">
+                    <option value="Active">Active</option>
+                    <option value="Probation">Probation</option>
+                    <option value="Leave">On Leave</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Save Employee</button>
+            <a href="/employees" class="back-link">Cancel</a>
         </form>
-        
-        <br>
-        <a href="/">Cancel</a>
     </div>
+
 </body>
 </html>

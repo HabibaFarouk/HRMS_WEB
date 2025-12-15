@@ -2,95 +2,351 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><%= pageTitle %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Portal | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
+        :root {
+            /* NEW COLOR SCHEME: Modern Charcoal & Indigo */
+            --sidebar-bg: #1e293b;   /* Dark Charcoal instead of Teal */
+            --sidebar-hover: #334155; /* Lighter Charcoal */
+            --sidebar-active: #4f46e5; /* Indigo Blue for active links */
+            
+            --main-bg: #f3f4f6;      /* Light Grey background */
+            --text-dark: #111827;    /* Almost Black for headings */
+            --text-muted: #6b7280;   /* Muted Grey */
+            
+            --card-border: #e5e7eb;
+            --accent-primary: #4f46e5; /* Indigo */
+            --accent-success: #059669; /* Emerald Green */
+            --accent-warning: #d97706; /* Amber */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif; /* More modern font stack */
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--main-bg);
+        }
+
+        /* --- Sidebar Styling --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #e2e8f0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 0;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            padding: 0 28px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
         
-        /* Navigation Bar */
-        .nav-bar { margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #eee; }
-        .nav-bar a { text-decoration: none; color: #333; margin-right: 20px; font-weight: bold; }
-        .nav-bar a:hover { color: #007bff; }
+        .brand i { margin-right: 10px; color: var(--accent-primary); }
 
-        /* Table Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
-        th { background-color: #007bff; color: white; }
-        tr:hover { background-color: #f1f1f1; }
-        
-        /* Status Badges */
-        .status { padding: 5px 10px; border-radius: 15px; color: white; font-size: 0.8em; }
-        .Active { background-color: #28a745; }
-        .Probation { background-color: #ffc107; color: black; }
-        .Leave { background-color: #dc3545; }
-        .Retired { background-color: #6c757d; }
+        .menu-category {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8; /* Lighter grey for section titles */
+            padding: 15px 28px 8px;
+            letter-spacing: 1.2px;
+        }
 
-        /* Buttons */
-        .btn-add { background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .btn-add:hover { background-color: #0056b3; }
+        .nav-links { list-style: none; }
 
-        .btn-edit { background-color: #ffc107; color: black; padding: 5px 10px; border-radius: 4px; text-decoration: none; margin-right: 5px; font-size: 0.9em; font-weight: bold; }
-        .btn-edit:hover { background-color: #e0a800; }
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 28px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
 
-        .btn-delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
-        .btn-delete:hover { background-color: #c82333; }
+        .nav-links li a:hover {
+            background-color: var(--sidebar-hover);
+            color: white;
+            padding-left: 32px; /* Slight movement effect */
+        }
+
+        .nav-links li a.active {
+            background-color: rgba(79, 70, 229, 0.1); /* Subtle tint */
+            color: white;
+            border-left: 3px solid var(--accent-primary);
+        }
+
+        .nav-links li a i { width: 24px; margin-right: 10px; opacity: 0.8; }
+
+        /* --- Main Content --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 30px 40px;
+            overflow-y: auto;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            color: var(--text-muted);
+            font-size: 14px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .dashboard-title h1 {
+            font-size: 26px;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-title p { color: var(--text-muted); margin-bottom: 35px; }
+
+        /* --- Cards Grid --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px; /* Rounder corners */
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-color: var(--accent-primary);
+        }
+
+        /* Decorative top border for cards */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), #818cf8);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .card:hover::before { opacity: 1; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .icon-box {
+            color: var(--accent-primary);
+            background: #eef2ff; /* Light indigo bg */
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 10px;
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .card-subtext { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 5px; }
+        .text-up { color: var(--accent-success); }
+        .text-neutral { color: var(--text-muted); }
+
+        /* --- Bottom Section --- */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .content-box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .content-box h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="nav-bar">
-            <a href="/" style="color: #007bff;">Employees</a>
-            <a href="/departments">Departments</a>
-            <a href="/jobs">Jobs</a>
-            <a href="/assignments">Assignments</a>
-            <a href="/training">Training</a>
-            <a href="/performance">Performance</a>
+
+    <aside class="sidebar">
+        <div class="brand"><i class="fas fa-layer-group"></i> HR Portal</div>
+
+        <ul class="nav-links">
+            <li><a href="/" class="active"><i class="fas fa-th-large"></i> Dashboard</a></li>
+        </ul>
+
+        <div class="menu-category">Organization</div>
+        <ul class="nav-links">
+            <li><a href="/universities"><i class="fas fa-landmark"></i> Universities</a></li>
+            <li><a href="/faculties"><i class="fas fa-school"></i> Faculties</a></li>
+            <li><a href="/departments"><i class="fas fa-building"></i> Departments</a></li>
+        </ul>
+
+        <div class="menu-category">Workforce</div>
+        <ul class="nav-links">
+            <li><a href="/employees"><i class="fas fa-id-badge"></i> Employees</a></li>
+            <li><a href="/contracts"><i class="fas fa-file-signature"></i> Contracts</a></li>
+            <li><a href="/jobs"><i class="fas fa-briefcase"></i> Jobs</a></li>
+            <li><a href="/assignments"><i class="fas fa-network-wired"></i> Assignments</a></li>
+        </ul>
+
+        <div class="menu-category">Analytics</div>
+        <ul class="nav-links">
+            <li><a href="/cycles"><i class="fas fa-history"></i> Performance Cycles</a></li>
+            <li><a href="/kpi"><i class="fas fa-chart-pie"></i> KPI Scores</a></li>
+            <li><a href="/appraisals"><i class="fas fa-star"></i> Appraisals</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-header">
+            <span><i class="far fa-calendar-alt"></i> Today: <script>document.write(new Date().toLocaleDateString())</script></span>
+            <div class="user-profile">
+                <i class="fas fa-user-circle fa-lg"></i> Admin User
+            </div>
         </div>
 
-        <h1>Employee Directory</h1>
-
-        <div style="text-align: right; margin-bottom: 15px;">
-            <a href="/add-employee" class="btn-add">+ Add New Employee</a>
+        <div class="dashboard-title">
+            <h1>Overview</h1>
+            <p>Here is what's happening in your organization today.</p>
         </div>
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if(employees.length === 0) { %>
-                    <tr><td colspan="5">No employees found.</td></tr>
-                <% } else { %>
-                    <% employees.forEach(emp => { %>
-                    <tr>
-                        <td><%= emp.Employee_ID %></td>
-                        <td><%= emp.First_Name %> <%= emp.Last_Name %></td>
-                        <td><%= emp.Work_Email %></td>
-                        <td>
-                            <span class="status <%= emp.Employment_Status %>">
-                                <%= emp.Employment_Status %>
-                            </span>
-                        </td>
-                        <td>
-                            <a href="/edit-employee/<%= emp.Employee_ID %>" class="btn-edit">Edit</a>
 
-                            <form action="/delete-employee" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete <%= emp.First_Name %>? This cannot be undone.');">
-                                <input type="hidden" name="Employee_ID" value="<%= emp.Employee_ID %>">
-                                <button type="submit" class="btn-delete">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <% }) %>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+        <div class="stats-grid">
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Total Employees</span>
+                    <div class="icon-box"><i class="fas fa-users"></i></div>
+                </div>
+                <div class="card-value">1,234</div>
+                <div class="card-subtext text-up"><i class="fas fa-arrow-up"></i> 12% vs last month</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Active Jobs</span>
+                    <div class="icon-box"><i class="fas fa-search"></i></div>
+                </div>
+                <div class="card-value">156</div>
+                <div class="card-subtext text-up"><i class="fas fa-plus"></i> 2 new this week</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Training Programs</span>
+                    <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                </div>
+                <div class="card-value">48</div>
+                <div class="card-subtext text-neutral">12 completed recently</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Pending Appraisals</span>
+                    <div class="icon-box"><i class="fas fa-clock"></i></div>
+                </div>
+                <div class="card-value">89</div>
+                <div class="card-subtext text-neutral">Q4 Cycle Active</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Departments</span>
+                    <div class="icon-box"><i class="fas fa-sitemap"></i></div>
+                </div>
+                <div class="card-value">24</div>
+                <div class="card-subtext text-neutral">Across 3 campuses</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Performance Score</span>
+                    <div class="icon-box"><i class="fas fa-chart-bar"></i></div>
+                </div>
+                <div class="card-value">4.2</div>
+                <div class="card-subtext text-up"><i class="fas fa-arrow-up"></i> +0.3 improvement</div>
+            </div>
+
+        </div>
+
+        <div class="bottom-grid">
+            <div class="content-box">
+                <h3><i class="fas fa-bullhorn" style="color:var(--accent-primary); margin-right:10px;"></i> Recent Activities</h3>
+                <p style="color: #999; font-size: 14px;">• New Faculty of Law added.</p>
+                <p style="color: #999; font-size: 14px; margin-top:10px;">• 5 new employees onboarded in Finance.</p>
+            </div>
+            <div class="content-box">
+                <h3><i class="far fa-calendar-check" style="color:var(--accent-warning); margin-right:10px;"></i> Deadlines</h3>
+                <p style="color: #999; font-size: 14px;">• Performance Reviews: <strong>Jan 31</strong></p>
+                <p style="color: #999; font-size: 14px; margin-top:10px;">• Tax Filing: <strong>Feb 15</strong></p>
+            </div>
+        </div>
+
+    </main>
+
 </body>
 </html>
