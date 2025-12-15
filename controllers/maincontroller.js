@@ -1,82 +1,171 @@
-// controllers/mainController.js
 const Employee = require('../models/Employee');
 const University = require('../models/University');
 const Faculty = require('../models/Faculty');
 const Department = require('../models/Department');
 const Job = require('../models/Job');
 const JobAssignment = require('../models/JobAssignment');
+const Contract = require('../models/Contract');
+const PerformanceCycle = require('../models/PerformanceCycle');
+const ObjectiveKPI = require('../models/ObjectiveKPI');
+const Appraisal = require('../models/Appraisal');
+const Appeal = require('../models/Appeal');
 
-// Helper to safely fetch data (prevents crashing if table is empty/missing)
-const safeFetch = async (Model) => {
+// --- HELPER: Safely Fetch List ---
+const safeFetch = async (Model, include = []) => {
     try {
-        return Model ? await Model.findAll() : [];
+        return Model ? await Model.findAll({ include }) : [];
     } catch (e) {
         console.error(`Error fetching data:`, e);
         return [];
     }
 };
 
-exports.getEmployees = async (req, res) => {
-    const data = await safeFetch(Employee);
-    res.render('employee', { pageTitle: 'Employees', employees: data });
+// --- HELPER: Generate ID (For tables without Auto-Increment) ---
+const generateId = async (Model, primaryKey) => {
+    const lastItem = await Model.findOne({ order: [[primaryKey, 'DESC']] });
+    return lastItem ? lastItem[primaryKey] + 1 : 1;
 };
 
-exports.getUniversities = async (req, res) => {
-    const data = await safeFetch(University);
-    res.render('universities', { pageTitle: 'Universities', universities: data });
+// =========================================================
+// 1. DASHBOARD & ORGANIZATION
+// =========================================================
+exports.getUniversities = async (req, res) => res.render('universities', { pageTitle: 'Universities', universities: await safeFetch(University) });
+exports.getAddUniversity = (req, res) => res.render('addUniversity', { pageTitle: 'Add University' });
+exports.postAddUniversity = async (req, res) => {
+    try {
+        const nextId = await generateId(University, 'University_ID');
+        await University.create({ University_ID: nextId, ...req.body });
+        res.redirect('/universities');
+    } catch (e) { res.send(e.message); }
 };
+exports.getEditUniversity = async (req, res) => res.render('editUniversity', { pageTitle: 'Edit University', uni: await University.findByPk(req.params.id) });
+exports.postEditUniversity = async (req, res) => { await University.update(req.body, { where: { University_ID: req.body.University_ID } }); res.redirect('/universities'); };
+exports.deleteUniversity = async (req, res) => { await University.destroy({ where: { University_ID: req.body.id } }); res.redirect('/universities'); };
 
-exports.getFaculties = async (req, res) => {
-    const data = await safeFetch(Faculty);
-    res.render('faculties', { pageTitle: 'Faculties', faculties: data });
+exports.getFaculties = async (req, res) => res.render('faculties', { pageTitle: 'Faculties', faculties: await safeFetch(Faculty) });
+exports.getAddFaculty = (req, res) => res.render('addFaculty', { pageTitle: 'Add Faculty' });
+exports.postAddFaculty = async (req, res) => {
+    try {
+        const nextId = await generateId(Faculty, 'Faculty_ID');
+        await Faculty.create({ Faculty_ID: nextId, ...req.body });
+        res.redirect('/faculties');
+    } catch (err) { res.send("Error adding faculty: " + err.message); }
 };
+exports.getEditFaculty = async (req, res) => res.render('editFaculty', { pageTitle: 'Edit Faculty', faculty: await Faculty.findByPk(req.params.id) });
+exports.postEditFaculty = async (req, res) => { await Faculty.update(req.body, { where: { Faculty_ID: req.body.Faculty_ID } }); res.redirect('/faculties'); };
+exports.deleteFaculty = async (req, res) => { await Faculty.destroy({ where: { Faculty_ID: req.body.id } }); res.redirect('/faculties'); };
 
-exports.getDepartments = async (req, res) => {
-    const data = await safeFetch(Department);
-    res.render('departments', { pageTitle: 'Departments', departments: data });
+exports.getDepartments = async (req, res) => res.render('departments', { pageTitle: 'Departments', departments: await safeFetch(Department) });
+exports.getAddDepartment = (req, res) => res.render('addDepartment', { pageTitle: 'Add Dept' });
+exports.postAddDepartment = async (req, res) => {
+    try {
+        const nextId = await generateId(Department, 'Department_ID');
+        await Department.create({ Department_ID: nextId, ...req.body });
+        res.redirect('/departments');
+    } catch (err) { res.send("Error adding department: " + err.message); }
 };
+exports.deleteDepartment = async (req, res) => { await Department.destroy({ where: { Department_ID: req.body.id } }); res.redirect('/departments'); };
 
-exports.getJobs = async (req, res) => {
-    const data = await safeFetch(Job);
-    res.render('jobs', { pageTitle: 'Jobs', jobs: data });
-};
-
-exports.getAssignments = async (req, res) => {
-    const data = await safeFetch(JobAssignment);
-    res.render('assignments', { pageTitle: 'Job Assignments', assignments: data });
-};
-// --- ADD EMPLOYEE LOGIC ---
-
-// 1. Show the "Add Employee" Form
-exports.getAddEmployee = async (req, res) => {
-    res.render('addEmployee', { 
-        pageTitle: 'Add New Employee'
-    });
-};
-
-// 2. Handle the Form Submission (Save to DB)
+// =========================================================
+// 2. WORKFORCE (Employees, Jobs, Contracts, Assignments)
+// =========================================================
+exports.getEmployees = async (req, res) => res.render('employee', { pageTitle: 'Employees', employees: await safeFetch(Employee) });
+exports.getAddEmployee = (req, res) => res.render('addEmployee', { pageTitle: 'Add Employee' });
 exports.postAddEmployee = async (req, res) => {
     try {
-        console.log("Form Data:", req.body);
-
-        const { First_Name, Last_Name, Email, Phone_Number, Hire_Date, Employment_Status } = req.body;
-
+        const nextId = await generateId(Employee, 'Employee_ID');
         await Employee.create({
-            First_Name: First_Name,
-            Last_Name: Last_Name,
-            Work_Email: Email, 
-            
-            // MAP THE FORM DATA TO THE DATABASE COLUMN
-            Mobile_Phone: Phone_Number, 
-            
-            Hire_Date: Hire_Date,
-            Employment_Status: Employment_Status
+            Employee_ID: nextId,
+            ...req.body,
+            Employment_Status: req.body.Employment_Status || 'Active',
+            Emergency_Contact_Name: 'Pending', Emergency_Contact_Phone: '0000', Emergency_Contact_Relationship: 'None',
+            Residential_City: 'Cairo', Residential_Area: 'N/A', Residential_Street: 'N/A', Residential_Country: 'Egypt'
         });
-
-        console.log("Success! Employee saved.");
         res.redirect('/employees');
-    } catch (error) {
-        console.error("Error adding employee:", error);
-        res.send("Error adding employee. Check terminal for details.");
-    }
+    } catch (err) { res.send("Error adding employee: " + err.message); }
+};
+exports.getEditEmployee = async (req, res) => res.render('editEmployee', { pageTitle: 'Edit Employee', emp: await Employee.findByPk(req.params.id) });
+exports.postEditEmployee = async (req, res) => { await Employee.update(req.body, { where: { Employee_ID: req.body.Employee_ID } }); res.redirect('/employees'); };
+exports.deleteEmployee = async (req, res) => { await Employee.destroy({ where: { Employee_ID: req.body.id } }); res.redirect('/employees'); };
+
+exports.getJobs = async (req, res) => res.render('jobs', { pageTitle: 'Jobs', jobs: await safeFetch(Job) });
+exports.getAddJob = (req, res) => res.render('addJob', { pageTitle: 'Add Job' });
+exports.postAddJob = async (req, res) => { await Job.create(req.body); res.redirect('/jobs'); };
+exports.getEditJob = async (req, res) => res.render('editJob', { pageTitle: 'Edit Job', job: await Job.findByPk(req.params.id) });
+exports.postEditJob = async (req, res) => { await Job.update(req.body, { where: { Job_ID: req.body.Job_ID } }); res.redirect('/jobs'); };
+exports.deleteJob = async (req, res) => { await Job.destroy({ where: { Job_ID: req.body.id } }); res.redirect('/jobs'); };
+
+exports.getContracts = async (req, res) => res.render('contracts', { pageTitle: 'Contracts', contracts: await safeFetch(Contract) });
+exports.getAddContract = (req, res) => res.render('addContract', { pageTitle: 'Add Contract' });
+exports.postAddContract = async (req, res) => {
+    try {
+        const nextId = await generateId(Contract, 'Contract_ID');
+        await Contract.create({ Contract_ID: nextId, ...req.body });
+        res.redirect('/contracts');
+    } catch (e) { res.send(e.message); }
+};
+exports.getEditContract = async (req, res) => res.render('editContract', { pageTitle: 'Edit Contract', contract: await Contract.findByPk(req.params.id) });
+exports.postEditContract = async (req, res) => { await Contract.update(req.body, { where: { Contract_ID: req.body.Contract_ID } }); res.redirect('/contracts'); };
+exports.deleteContract = async (req, res) => { await Contract.destroy({ where: { Contract_ID: req.body.id } }); res.redirect('/contracts'); };
+
+exports.getAssignments = async (req, res) => res.render('assignments', { pageTitle: 'Assignments', assignments: await safeFetch(JobAssignment) });
+exports.getAddAssignment = (req, res) => res.render('addAssignment', { pageTitle: 'Add Assignment' });
+exports.postAddAssignment = async (req, res) => { await JobAssignment.create(req.body); res.redirect('/assignments'); };
+exports.deleteAssignment = async (req, res) => { await JobAssignment.destroy({ where: { Assignment_ID: req.body.id } }); res.redirect('/assignments'); };
+
+// =========================================================
+// 3. PERFORMANCE (Cycles, KPIs, Appraisals, Appeals)
+// =========================================================
+exports.getCycles = async (req, res) => res.render('cycles', { pageTitle: 'Performance Cycles', cycles: await safeFetch(PerformanceCycle) });
+exports.getAddCycle = (req, res) => res.render('addCycle', { pageTitle: 'Add Cycle' });
+exports.postAddCycle = async (req, res) => {
+    const nextId = await generateId(PerformanceCycle, 'Cycle_ID');
+    await PerformanceCycle.create({ Cycle_ID: nextId, ...req.body });
+    res.redirect('/cycles');
+};
+exports.deleteCycle = async (req, res) => { await PerformanceCycle.destroy({ where: { Cycle_ID: req.body.id } }); res.redirect('/cycles'); };
+
+exports.getKPI = async (req, res) => res.render('kpi', { pageTitle: 'KPIs', kpis: await safeFetch(ObjectiveKPI) });
+exports.getAddKPI = (req, res) => res.render('addKPI', { pageTitle: 'Add KPI' });
+exports.postAddKPI = async (req, res) => { await ObjectiveKPI.create(req.body); res.redirect('/kpi'); };
+exports.deleteKPI = async (req, res) => { await ObjectiveKPI.destroy({ where: { KPI_ID: req.body.id } }); res.redirect('/kpi'); };
+
+// --- APPRAISALS ---
+exports.getAppraisals = async (req, res) => {
+    const data = await Appraisal.findAll({ include: [Appeal] });
+    res.render('appraisals', { pageTitle: 'Appraisals', appraisals: data });
+};
+exports.getAddAppraisal = (req, res) => res.render('addAppraisal', { pageTitle: 'New Appraisal' });
+exports.postAddAppraisal = async (req, res) => { await Appraisal.create(req.body); res.redirect('/appraisals'); };
+exports.deleteAppraisal = async (req, res) => {
+    try { await Appraisal.destroy({ where: { Appraisal_ID: req.body.id } }); res.redirect('/appraisals'); }
+    catch (err) { res.send("Error deleting appraisal: " + err.message); }
+};
+
+// --- APPEALS ---
+exports.postAddAppeal = async (req, res) => {
+    await Appeal.create({
+        Appraisal_ID: req.body.Appraisal_ID,
+        Reason: req.body.Reason,
+        Approval_Status: 'Pending',
+        Submission_Date: new Date()
+    });
+    res.redirect('/appraisals');
+};
+exports.getEditAppeal = async (req, res) => {
+    const appeal = await Appeal.findByPk(req.params.id);
+    res.render('editAppeal', { pageTitle: 'Edit Appeal', appeal: appeal });
+};
+exports.postEditAppeal = async (req, res) => {
+    try {
+        await Appeal.update({
+            Reason: req.body.Reason,
+            Approval_Status: req.body.Approval_Status
+        }, { where: { Appeal_ID: req.body.Appeal_ID } });
+        res.redirect('/appraisals');
+    } catch (err) { res.send("Error updating appeal: " + err.message); }
+};
+exports.deleteAppeal = async (req, res) => {
+    try { await Appeal.destroy({ where: { Appeal_ID: req.body.id } }); res.redirect('/appraisals'); }
+    catch (err) { res.send("Error deleting appeal: " + err.message); }
 };

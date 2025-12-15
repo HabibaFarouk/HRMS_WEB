@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>Jobs</title>
+    <meta charset="UTF-8"><title>Contracts</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;} .btn-icon{border:none;background:none;cursor:pointer;margin:0 5px}</style>
 </head>
 <body>
     <%- include('partials/sidebar') %>
     <div class="main">
-        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Jobs</h1><a href="/add-job" class="btn-add">+ Add Job</a></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Contracts</h1><a href="/add-contract" class="btn-add">+ Add Contract</a></div>
         <table>
-            <thead><tr><th>Title</th><th>Salary</th><th>Level</th><th>Actions</th></tr></thead>
-            <tbody><% jobs.forEach(j => { %><tr><td><strong><%= j.Job_Title %></strong></td><td>$<%= j.Min_Salary %> - $<%= j.Max_Salary %></td><td><%= j.Job_Level %></td><td><a href="/edit-job/<%= j.Job_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a><form action="/delete-job" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= j.Job_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
+            <thead><tr><th>Type</th><th>Modality</th><th>Duration</th><th>Actions</th></tr></thead>
+            <tbody><% contracts.forEach(c => { %><tr><td><%= c.Type %></td><td><%= c.Work_Modality %></td><td><%= c.Default_Duration %> Months</td><td><a href="/edit-contract/<%= c.Contract_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a><form action="/delete-contract" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= c.Contract_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
         </table>
     </div>
 </body>

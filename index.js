@@ -6,9 +6,11 @@ const sequelize = require('./config/db'); // Database Connection
 
 // Import Routes
 const mainRoutes = require('./routes/index'); 
-
+const Appraisal = require('./models/Appraisal');
+const Appeal = require('./models/Appeal');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 // --- Middleware Setup ---
 // These lines allow the server to read data from forms (like "Add Employee")
@@ -26,6 +28,9 @@ app.set('views', path.join(__dirname, 'views'));
 // --- Connect Routes ---
 // This tells the app to use the routes defined in 'routes/index.js'
 app.use('/', mainRoutes); 
+
+Appraisal.hasMany(Appeal, { foreignKey: 'Appraisal_ID' });
+Appeal.belongsTo(Appraisal, { foreignKey: 'Appraisal_ID' });
 
 // --- Database Connection & Server Start ---
 sequelize.authenticate()

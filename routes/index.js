@@ -1,39 +1,75 @@
-// routes/index.js
 const express = require('express');
 const router = express.Router();
 const mainController = require('../controllers/mainController');
 
-// --- Debugging Check ---
-// This checks if your controller is set up correctly.
-// If you see errors in your terminal, it means a function is missing in mainController.js
-if (!mainController.getEmployees || !mainController.getAddEmployee) {
-    console.error("CRITICAL ERROR: Controller functions are missing. Check mainController.js exports.");
-}
+router.get('/', (req, res) => res.render('dashboard', { pageTitle: 'Dashboard' }));
 
-// --- 1. Dashboard (Home Page) ---
-router.get('/', (req, res) => {
-    res.render('dashboard', { pageTitle: 'Dashboard' });
-});
-
-// --- 2. Organization Routes ---
+// 1. ORGANIZATION
 router.get('/universities', mainController.getUniversities);
+router.get('/add-university', mainController.getAddUniversity);
+router.post('/add-university', mainController.postAddUniversity);
+router.get('/edit-university/:id', mainController.getEditUniversity);
+router.post('/edit-university', mainController.postEditUniversity);
+router.post('/delete-university', mainController.deleteUniversity);
+
 router.get('/faculties', mainController.getFaculties);
+router.get('/add-faculty', mainController.getAddFaculty);
+router.post('/add-faculty', mainController.postAddFaculty);
+router.get('/edit-faculty/:id', mainController.getEditFaculty);
+router.post('/edit-faculty', mainController.postEditFaculty);
+router.post('/delete-faculty', mainController.deleteFaculty);
+
 router.get('/departments', mainController.getDepartments);
+router.get('/add-department', mainController.getAddDepartment);
+router.post('/add-department', mainController.postAddDepartment);
+router.post('/delete-department', mainController.deleteDepartment);
 
-// --- 3. Workforce Routes ---
-router.get('/employees', mainController.getEmployees); // View Employee List
-router.get('/jobs', mainController.getJobs);           // View Job Roles
-router.get('/assignments', mainController.getAssignments); // View Job Assignments
+// 2. WORKFORCE
+router.get('/employees', mainController.getEmployees);
+router.get('/add-employee', mainController.getAddEmployee);
+router.post('/add-employee', mainController.postAddEmployee);
+router.get('/edit-employee/:id', mainController.getEditEmployee);
+router.post('/edit-employee', mainController.postEditEmployee);
+router.post('/delete-employee', mainController.deleteEmployee);
 
-// --- 4. Feature: Add New Employee ---
-router.get('/add-employee', mainController.getAddEmployee);   // Step 1: Show the Form
-router.post('/add-employee', mainController.postAddEmployee); // Step 2: Save the Data
+router.get('/jobs', mainController.getJobs);
+router.get('/add-job', mainController.getAddJob);
+router.post('/add-job', mainController.postAddJob);
+router.get('/edit-job/:id', mainController.getEditJob);
+router.post('/edit-job', mainController.postEditJob);
+router.post('/delete-job', mainController.deleteJob);
 
-// --- 5. Placeholder Routes (Coming Soon) ---
-// These prevent the app from crashing if you click unfinished links
-router.get('/contracts', (req, res) => res.send('Contracts Page - Coming Soon'));
-router.get('/cycles', (req, res) => res.send('Performance Cycles - Coming Soon'));
-router.get('/kpi', (req, res) => res.send('KPI Scores - Coming Soon'));
-router.get('/appraisals', (req, res) => res.send('Appraisals - Coming Soon'));
+router.get('/contracts', mainController.getContracts);
+router.get('/add-contract', mainController.getAddContract);
+router.post('/add-contract', mainController.postAddContract);
+router.get('/edit-contract/:id', mainController.getEditContract);
+router.post('/edit-contract', mainController.postEditContract);
+router.post('/delete-contract', mainController.deleteContract);
+
+router.get('/assignments', mainController.getAssignments);
+router.get('/add-assignment', mainController.getAddAssignment);
+router.post('/add-assignment', mainController.postAddAssignment);
+router.post('/delete-assignment', mainController.deleteAssignment);
+
+// 3. PERFORMANCE
+router.get('/cycles', mainController.getCycles);
+router.get('/add-cycle', mainController.getAddCycle);
+router.post('/add-cycle', mainController.postAddCycle);
+router.post('/delete-cycle', mainController.deleteCycle);
+
+router.get('/kpi', mainController.getKPI);
+router.get('/add-kpi', mainController.getAddKPI);
+router.post('/add-kpi', mainController.postAddKPI);
+router.post('/delete-kpi', mainController.deleteKPI);
+
+router.get('/appraisals', mainController.getAppraisals);
+router.get('/add-appraisal', mainController.getAddAppraisal);
+router.post('/add-appraisal', mainController.postAddAppraisal);
+router.post('/delete-appraisal', mainController.deleteAppraisal);
+
+router.post('/add-appeal', mainController.postAddAppeal);
+router.get('/edit-appeal/:id', mainController.getEditAppeal);
+router.post('/edit-appeal', mainController.postEditAppeal);
+router.post('/delete-appeal', mainController.deleteAppeal);
 
 module.exports = router;

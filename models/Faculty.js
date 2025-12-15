@@ -5,13 +5,18 @@ const Faculty = sequelize.define('Faculty', {
     Faculty_ID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        // No autoIncrement here because your DB doesn't have it
     },
     Faculty_Name: { type: Sequelize.STRING, allowNull: false },
-    University_ID: { type: Sequelize.INTEGER }, // Foreign Key
-    Dean_Name: { type: Sequelize.STRING },
-    Office_Location: { type: Sequelize.STRING },
-    Contact_Email: { type: Sequelize.STRING }
+    
+    // Matches SQL: Location
+    Location: { type: Sequelize.STRING },
+    
+    // Matches SQL: Contact_Email
+    Contact_Email: { type: Sequelize.STRING },
+
+    // Matches SQL: University_ID
+    University_ID: { type: Sequelize.INTEGER }
 }, {
     tableName: 'FACULTY',
     timestamps: false

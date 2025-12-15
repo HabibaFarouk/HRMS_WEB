@@ -1,19 +1,41 @@
 <!DOCTYPE html>
-<html>
-<head><title>Add Job</title></head>
-<body style="font-family: Arial; padding: 20px;">
-    <h1>Add New Job</h1>
-    <form action="/add-job" method="POST">
-        <input type="text" name="Job_Title" placeholder="Job Title" required><br><br>
-        <select name="Job_Level">
-            <option value="Entry">Entry</option>
-            <option value="Mid">Mid</option>
-            <option value="Senior">Senior</option>
-            <option value="Executive">Executive</option>
-        </select><br><br>
-        <input type="number" name="Min_Salary" placeholder="Min Salary"><br><br>
-        <input type="number" name="Max_Salary" placeholder="Max Salary"><br><br>
-        <button type="submit">Save Job</button>
-    </form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Portal | Add Job</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .form-box { background: white; width: 400px; padding: 40px; border-radius: 8px; }
+        label { display: block; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 4px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>Add Job Role</h2>
+        <form action="/add-job" method="POST">
+            <label>Job Title</label>
+            <input type="text" name="Job_Title" required>
+            
+            <label>Min Salary</label>
+            <input type="number" name="Min_Salary">
+            
+            <label>Max Salary</label>
+            <input type="number" name="Max_Salary">
+            
+            <label>Level</label>
+            <select name="Job_Level">
+                <option value="Entry">Entry</option>
+                <option value="Mid">Mid</option>
+                <option value="Senior">Senior</option>
+                <option value="Executive">Executive</option>
+            </select>
+
+            <button type="submit" class="btn">Save Job</button>
+            <a href="/jobs" style="display:block; text-align:center; margin-top:15px; color:#64748b; text-decoration:none;">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

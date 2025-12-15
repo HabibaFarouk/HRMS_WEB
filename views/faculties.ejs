@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>HR Portal | Faculties</title>
+    <meta charset="UTF-8"><title>Faculties</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --sidebar-bg: #1e293b; --main-bg: #f3f4f6; --accent-primary: #4f46e5; }
-        body { display: flex; min-height: 100vh; background: var(--main-bg); margin: 0; font-family: 'Segoe UI', sans-serif; }
-        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px 0; display: flex; flex-direction: column; }
-        .nav-links { list-style: none; padding: 0; }
-        .nav-links a { display: block; padding: 12px 24px; color: #cbd5e1; text-decoration: none; }
-        .nav-links a:hover { background: #334155; }
-        .main-content { flex: 1; padding: 30px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; }
+        body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6}
+        .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;}
+        .nav-links a{display:block;padding:12px 24px;color:#cbd5e1;text-decoration:none}
+        .nav-links a:hover{background:#334155}
+        .main{flex:1;padding:30px;overflow-y:auto;}
+        table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+        th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left}
+        th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;}
+        .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;}
+        .btn-icon{border:none;background:none;cursor:pointer;margin:0 5px}
     </style>
 </head>
 <body>
-    <aside class="sidebar">
-        <div style="padding:0 24px 30px; font-weight:700; font-size:22px;">HR Portal</div>
-        <ul class="nav-links">
-            <li><a href="/">Dashboard</a></li>
-            <li><a href="/universities">Universities</a></li>
-            <li><a href="/faculties" style="background:rgba(255,255,255,0.1); color:white;">Faculties</a></li>
-            <li><a href="/departments">Departments</a></li>
-            <li><a href="/employees">Employees</a></li>
-        </ul>
-    </aside>
-    <main class="main-content">
-        <h1>Faculties</h1>
+    <%- include('partials/sidebar') %>
+
+    <div class="main">
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;align-items:center;">
+            <h1>Faculties</h1>
+            <a href="/add-faculty" class="btn-add">+ Add Faculty</a>
+        </div>
         <table>
-            <thead><tr><th>ID</th><th>Faculty Name</th><th>Dean</th><th>Location</th><th>Email</th></tr></thead>
+            <thead><tr><th>Name</th><th>Location</th><th>Email</th><th>Actions</th></tr></thead>
             <tbody>
-                <% if(faculties.length) { faculties.forEach(f => { %>
+                <% faculties.forEach(f => { %>
                 <tr>
-                    <td><%= f.Faculty_ID %></td>
                     <td><strong><%= f.Faculty_Name %></strong></td>
-                    <td><%= f.Dean_Name %></td>
-                    <td><%= f.Office_Location %></td>
+                    <td><%= f.Location %></td>
                     <td><%= f.Contact_Email %></td>
+                    <td>
+                        <a href="/edit-faculty/<%= f.Faculty_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a>
+                        <form action="/delete-faculty" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');">
+                            <input type="hidden" name="id" value="<%= f.Faculty_ID %>">
+                            <button class="btn-icon" style="color:#ef4444;"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
                 </tr>
-                <% })} else { %> <tr><td colspan="5">No data found.</td></tr> <% } %>
+                <% }) %>
             </tbody>
         </table>
-    </main>
+    </div>
 </body>
 </html>

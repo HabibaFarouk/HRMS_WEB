@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>Universities</title>
+    <meta charset="UTF-8"><title>KPIs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;}</style>
 </head>
 <body>
     <%- include('partials/sidebar') %>
     <div class="main">
-        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Universities</h1><a href="/add-university" class="btn-add">+ Add University</a></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>KPIs</h1><a href="/add-kpi" class="btn-add">+ Add KPI</a></div>
         <table>
-            <thead><tr><th>Name</th><th>Acronym</th><th>Address</th><th>Actions</th></tr></thead>
-            <tbody><% universities.forEach(u => { %><tr><td><strong><%= u.University_Name %></strong></td><td><%= u.Acronym %></td><td><%= u.Address %></td><td><a href="/edit-university/<%= u.University_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a><form action="/delete-university" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= u.University_ID %>"><button style="border:none;background:none;color:red;cursor:pointer;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
+            <thead><tr><th>Name</th><th>Unit</th><th>Target</th><th>Actions</th></tr></thead>
+            <tbody><% kpis.forEach(k => { %><tr><td><%= k.KPI_Name %></td><td><%= k.Measurement_Unit %></td><td><%= k.Target_Value %></td><td><form action="/delete-kpi" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= k.KPI_ID %>"><button style="border:none;background:none;color:red;cursor:pointer;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
         </table>
     </div>
 </body>

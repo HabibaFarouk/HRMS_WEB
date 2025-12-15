@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Edit Contract</title><style>body{font-family:'Segoe UI';background:#f3f4f6;display:flex;justify-content:center;align-items:center;height:100vh}.box{background:white;padding:30px;width:400px;border-radius:8px}input,select{width:100%;padding:10px;margin:10px 0}</style></head>
+<body>
+    <div class="box">
+        <h2>Edit Contract</h2>
+        <form action="/edit-contract" method="POST">
+            <input type="hidden" name="Contract_ID" value="<%= contract.Contract_ID %>">
+            <label>Type</label>
+            <select name="Type">
+                <option value="Permanent" <%= contract.Type == 'Permanent' ? 'selected' : '' %>>Permanent</option>
+                <option value="Temporary" <%= contract.Type == 'Temporary' ? 'selected' : '' %>>Temporary</option>
+            </select>
+            <label>Modality</label>
+            <select name="Work_Modality">
+                <option value="Full Time" <%= contract.Work_Modality == 'Full Time' ? 'selected' : '' %>>Full Time</option>
+                <option value="Part Time" <%= contract.Work_Modality == 'Part Time' ? 'selected' : '' %>>Part Time</option>
+                <option value="Remote" <%= contract.Work_Modality == 'Remote' ? 'selected' : '' %>>Remote</option>
+            </select>
+            <label>Duration (Months)</label>
+            <input type="number" name="Default_Duration" value="<%= contract.Default_Duration %>">
+            <button type="submit" style="width:100%;padding:10px;background:#4f46e5;color:white;border:none;">Update Contract</button>
+        </form>
+    </div>
+</body></html>

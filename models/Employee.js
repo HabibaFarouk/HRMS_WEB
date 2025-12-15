@@ -5,27 +5,24 @@ const Employee = sequelize.define('Employee', {
     Employee_ID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        // No autoIncrement because your DB doesn't have it
     },
     First_Name: { type: Sequelize.STRING, allowNull: false },
     Last_Name: { type: Sequelize.STRING, allowNull: false },
-    
-    // Correct Column Name from your screenshot
-    Work_Email: { type: Sequelize.STRING, unique: true },
-
-    // CRITICAL FIX: Changing 'Phone_Number' to 'Mobile_Phone'
+    Work_Email: { type: Sequelize.STRING },
     Mobile_Phone: { type: Sequelize.STRING },
-    
-    Hire_Date: { type: Sequelize.DATEONLY },
-    Job_ID: { type: Sequelize.INTEGER },
-    Department_ID: { type: Sequelize.INTEGER },
-    Manager_ID: { type: Sequelize.INTEGER },
-    Employment_Status: { 
-        type: Sequelize.STRING, 
-        defaultValue: 'Active' 
-    }
+    Employment_Status: { type: Sequelize.STRING, defaultValue: 'Active' },
+
+    // Required fields (NOT NULL in your DB)
+    Emergency_Contact_Name: { type: Sequelize.STRING },
+    Emergency_Contact_Phone: { type: Sequelize.STRING },
+    Emergency_Contact_Relationship: { type: Sequelize.STRING },
+    Residential_City: { type: Sequelize.STRING },
+    Residential_Area: { type: Sequelize.STRING },
+    Residential_Street: { type: Sequelize.STRING },
+    Residential_Country: { type: Sequelize.STRING }
 }, {
-    tableName: 'EMPLOYEE', // Matches your table
+    tableName: 'EMPLOYEE',
     timestamps: false
 });
 

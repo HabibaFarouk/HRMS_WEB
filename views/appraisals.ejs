@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Appraisals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top;} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;} .appeal-box{background:#fdf2f8;border-left:3px solid #db2777;padding:8px;margin-top:5px;border-radius:4px;font-size:0.9em;} .btn-icon{border:none;background:none;cursor:pointer;margin:0 2px;}</style>
+</head>
+<body>
+    <%- include('partials/sidebar') %>
+    <div class="main">
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Appraisals & Appeals</h1><a href="/add-appraisal" class="btn-add">+ New Appraisal</a></div>
+        <table>
+            <thead><tr><th>ID</th><th>Score</th><th>Date</th><th>Actions</th><th>Appeals</th></tr></thead>
+            <tbody><% appraisals.forEach(a => { %><tr><td>#<%= a.Appraisal_ID %></td><td><strong style="color:#4f46e5;"><%= a.Overall_Score %></strong></td><td><%= a.Appraisal_Date %></td>
+            <td>
+                <form action="/delete-appraisal" method="POST" style="display:inline;" onsubmit="return confirm('Delete Appraisal?');"><input type="hidden" name="id" value="<%= a.Appraisal_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form>
+            </td>
+            <td>
+                <% if(a.Appeals && a.Appeals.length > 0) { %><% a.Appeals.forEach(ap => { %>
+                    <div class="appeal-box">
+                        <div style="display:flex;justify-content:space-between;">
+                            <span><strong>Appeal:</strong> <%= ap.Reason %> (<%= ap.Approval_Status %>)</span>
+                            <div>
+                                <a href="/edit-appeal/<%= ap.Appeal_ID %>" style="color:#4f46e5;font-size:0.9em;"><i class="fas fa-edit"></i></a>
+                                <form action="/delete-appeal" method="POST" style="display:inline;" onsubmit="return confirm('Delete Appeal?');"><input type="hidden" name="id" value="<%= ap.Appeal_ID %>"><button class="btn-icon" style="color:red;font-size:0.9em;"><i class="fas fa-trash"></i></button></form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %><% } else { %><span style="color:#aaa;">No Appeals</span><% } %>
+                <form action="/add-appeal" method="POST" style="margin-top:10px;"><input type="hidden" name="Appraisal_ID" value="<%= a.Appraisal_ID %>"><input type="text" name="Reason" placeholder="Reason..." required style="padding:5px;width:100px;border:1px solid #ddd;border-radius:4px;"><button type="submit" style="background:#333;color:white;border:none;padding:5px 8px;margin-left:5px;border-radius:4px;cursor:pointer;">Add</button></form>
+            </td></tr><% }) %></tbody>
+        </table>
+    </div>
+</body>
+</html>

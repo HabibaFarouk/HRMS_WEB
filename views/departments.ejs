@@ -1,48 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>HR Portal | Departments</title>
+    <meta charset="UTF-8"><title>Departments</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --sidebar-bg: #1e293b; --main-bg: #f3f4f6; --accent-primary: #4f46e5; }
-        body { display: flex; min-height: 100vh; background: var(--main-bg); margin: 0; font-family: 'Segoe UI', sans-serif; }
-        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 20px 0; display: flex; flex-direction: column; }
-        .nav-links a { display: block; padding: 12px 24px; color: #cbd5e1; text-decoration: none; }
-        .nav-links a:hover { background: #334155; }
-        .main-content { flex: 1; padding: 30px; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 15px; border-bottom: 1px solid #e5e7eb; text-align: left; }
-        th { background: #f8fafc; color: #64748b; font-size: 12px; text-transform: uppercase; }
-    </style>
+    <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;} .btn-icon{border:none;background:none;cursor:pointer;margin:0 5px}</style>
 </head>
 <body>
-    <aside class="sidebar">
-        <div style="padding:0 24px 30px; font-weight:700; font-size:22px;">HR Portal</div>
-        <div class="nav-links">
-            <a href="/">Dashboard</a>
-            <a href="/universities">Universities</a>
-            <a href="/faculties">Faculties</a>
-            <a href="/departments" style="background:rgba(255,255,255,0.1); color:white;">Departments</a>
-            <a href="/employees">Employees</a>
-        </div>
-    </aside>
-    <main class="main-content">
-        <h1>Departments</h1>
+    <%- include('partials/sidebar') %>
+    <div class="main">
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Departments</h1><a href="/add-department" class="btn-add">+ Add Department</a></div>
         <table>
-            <thead><tr><th>ID</th><th>Department Name</th><th>Head of Dept</th><th>Email</th><th>Actions</th></tr></thead>
-            <tbody>
-                <% if(departments.length) { departments.forEach(d => { %>
-                <tr>
-                    <td><%= d.Department_ID %></td>
-                    <td><strong><%= d.Department_Name %></strong></td>
-                    <td><%= d.Head_Of_Department || 'N/A' %></td>
-                    <td><%= d.Contact_Email %></td>
-                    <td><a href="#" style="color:#4f46e5;">Edit</a></td>
-                </tr>
-                <% })} else { %> <tr><td colspan="5">No departments found.</td></tr> <% } %>
-            </tbody>
+            <thead><tr><th>Name</th><th>Type</th><th>Location</th><th>Actions</th></tr></thead>
+            <tbody><% departments.forEach(d => { %><tr><td><strong><%= d.Department_Name %></strong></td><td><%= d.Department_Type %></td><td><%= d.Location %></td><td><form action="/delete-department" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= d.Department_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
         </table>
-    </main>
+    </div>
 </body>
 </html>
