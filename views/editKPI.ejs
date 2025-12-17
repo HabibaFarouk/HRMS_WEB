@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Edit KPI</title>
+    <style>body{font-family:'Segoe UI';background:#f3f4f6;display:flex;justify-content:center;align-items:center;height:100vh}.box{background:white;padding:30px;width:400px;border-radius:8px}input,select{width:100%;padding:10px;margin:10px 0}</style>
+</head>
+<body>
+    <div class="box">
+        <h2>Edit KPI</h2>
+        <form action="/edit-kpi" method="POST">
+            <input type="hidden" name="KPI_ID" value="<%= kpi.KPI_ID %>">
+            
+            <label>KPI Name</label>
+            <input type="text" name="KPI_Name" value="<%= kpi.KPI_Name %>" required>
+            
+            <label>Measurement Unit</label>
+            <input type="text" name="Measurement_Unit" value="<%= kpi.Measurement_Unit %>">
+            
+            <label>Target Value</label>
+            <input type="number" step="0.01" name="Target_Value" value="<%= kpi.Target_Value %>">
+
+            <button type="submit" style="width:100%;padding:10px;background:#4f46e5;color:white;border:none;cursor:pointer;">Update KPI</button>
+            <a href="/kpi" style="display:block;text-align:center;margin-top:10px;text-decoration:none;color:#555;">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

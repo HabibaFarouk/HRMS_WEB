@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html><html><head><title>Edit Assignment</title><style>body{font-family:'Segoe UI';background:#f3f4f6;display:flex;justify-content:center;align-items:center;height:100vh}.box{background:white;padding:30px;width:400px;border-radius:8px}input,select{width:100%;padding:10px;margin:10px 0}</style></head><body><div class="box"><h2>Edit Assignment</h2><form action="/edit-assignment" method="POST"><input type="hidden" name="Assignment_ID" value="<%= assignment.Assignment_ID %>"><label>Status</label><select name="Status"><option <%= assignment.Status=='Active'?'selected':'' %>>Active</option><option <%= assignment.Status=='Finished'?'selected':'' %>>Finished</option><option <%= assignment.Status=='Terminated'?'selected':'' %>>Terminated</option></select><button type="submit" style="width:100%;padding:10px;background:#4f46e5;color:white;border:none;">Update Status</button></form></div></body></html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

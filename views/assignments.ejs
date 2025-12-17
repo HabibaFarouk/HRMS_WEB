@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"><title>Assignments</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;}</style>
+    <style>body{font-family:'Segoe UI';display:flex;min-height:100vh;margin:0;background:#f3f4f6} .sidebar{width:260px;background:#1e293b;color:white;padding:20px 0;flex-shrink:0;} .nav-links a{display:block;padding:10px 24px;color:#cbd5e1;text-decoration:none;font-size:14px;} .nav-links a:hover{background:#334155} .main{flex:1;padding:30px;overflow-y:auto;} table{width:100%;background:white;border-collapse:collapse;border-radius:8px;overflow:hidden;} th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left} th{background:#f8fafc;font-weight:600;color:#64748b;text-transform:uppercase;font-size:12px;} .btn-add{background:#4f46e5;color:white;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;} .btn-icon{border:none;background:none;cursor:pointer;margin:0 5px}</style>
 </head>
 <body>
     <%- include('partials/sidebar') %>
@@ -11,7 +11,39 @@
         <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Job Assignments</h1><a href="/add-assignment" class="btn-add">+ Assign Job</a></div>
         <table>
             <thead><tr><th>ID</th><th>Employee ID</th><th>Job ID</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody><% assignments.forEach(a => { %><tr><td>#<%= a.Assignment_ID %></td><td><%= a.Employee_ID %></td><td><%= a.Job_ID %></td><td><span style="color:green;font-weight:bold;"><%= a.Status %></span></td><td><form action="/delete-assignment" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= a.Assignment_ID %>"><button style="border:none;background:none;color:red;cursor:pointer;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
+           <tbody>
+            <% assignments.forEach(a => { %>
+            <tr>
+                <td>#<%= a.Assignment_ID %></td>
+                
+                <td>
+                    <% if(a.Employee) { %>
+                        <strong><%= a.Employee.First_Name %> <%= a.Employee.Last_Name %></strong>
+                    <% } else { %>
+                        Employee #<%= a.Employee_ID %>
+                    <% } %>
+                </td>
+
+                <td>
+                    <% if(a.Job) { %>
+                        <%= a.Job.Job_Title %>
+                    <% } else { %>
+                        Job #<%= a.Job_ID %>
+                    <% } %>
+                </td>
+
+                <td><span style="color:green;font-weight:bold;"><%= a.Status %></span></td>
+                
+                <td>
+                    <a href="/edit-assignment/<%= a.Assignment_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a>
+                    <form action="/delete-assignment" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');">
+                        <input type="hidden" name="id" value="<%= a.Assignment_ID %>">
+                        <button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
         </table>
     </div>
 </body>

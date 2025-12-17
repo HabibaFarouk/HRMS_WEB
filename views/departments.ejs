@@ -11,7 +11,22 @@
         <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Departments</h1><a href="/add-department" class="btn-add">+ Add Department</a></div>
         <table>
             <thead><tr><th>Name</th><th>Type</th><th>Location</th><th>Actions</th></tr></thead>
-            <tbody><% departments.forEach(d => { %><tr><td><strong><%= d.Department_Name %></strong></td><td><%= d.Department_Type %></td><td><%= d.Location %></td><td><form action="/delete-department" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= d.Department_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>
+            <tbody>
+                <% departments.forEach(d => { %>
+                <tr>
+                    <td><strong><%= d.Department_Name %></strong></td>
+                    <td><%= d.Department_Type %></td>
+                    <td><%= d.Location %></td>
+                    <td>
+                        <a href="/edit-department/<%= d.Department_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a>
+                        <form action="/delete-department" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');">
+                            <input type="hidden" name="id" value="<%= d.Department_ID %>">
+                            <button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
         </table>
     </div>
 </body>

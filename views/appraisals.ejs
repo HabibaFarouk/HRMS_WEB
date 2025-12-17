@@ -10,25 +10,68 @@
     <div class="main">
         <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Appraisals & Appeals</h1><a href="/add-appraisal" class="btn-add">+ New Appraisal</a></div>
         <table>
-            <thead><tr><th>ID</th><th>Score</th><th>Date</th><th>Actions</th><th>Appeals</th></tr></thead>
-            <tbody><% appraisals.forEach(a => { %><tr><td>#<%= a.Appraisal_ID %></td><td><strong style="color:#4f46e5;"><%= a.Overall_Score %></strong></td><td><%= a.Appraisal_Date %></td>
-            <td>
-                <form action="/delete-appraisal" method="POST" style="display:inline;" onsubmit="return confirm('Delete Appraisal?');"><input type="hidden" name="id" value="<%= a.Appraisal_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form>
-            </td>
-            <td>
-                <% if(a.Appeals && a.Appeals.length > 0) { %><% a.Appeals.forEach(ap => { %>
-                    <div class="appeal-box">
-                        <div style="display:flex;justify-content:space-between;">
-                            <span><strong>Appeal:</strong> <%= ap.Reason %> (<%= ap.Approval_Status %>)</span>
-                            <div>
-                                <a href="/edit-appeal/<%= ap.Appeal_ID %>" style="color:#4f46e5;font-size:0.9em;"><i class="fas fa-edit"></i></a>
-                                <form action="/delete-appeal" method="POST" style="display:inline;" onsubmit="return confirm('Delete Appeal?');"><input type="hidden" name="id" value="<%= ap.Appeal_ID %>"><button class="btn-icon" style="color:red;font-size:0.9em;"><i class="fas fa-trash"></i></button></form>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Employee / Job</th> <th>Score</th>
+                <th>Date</th>
+                <th>Actions</th>
+                <th>Appeals</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% appraisals.forEach(a => { %>
+            <tr>
+                <td>#<%= a.Appraisal_ID %></td>
+                
+                <td>
+                    <% if(a.JobAssignment && a.JobAssignment.Employee) { %>
+                        <strong><%= a.JobAssignment.Employee.First_Name %> <%= a.JobAssignment.Employee.Last_Name %></strong><br>
+                        <small style="color:#666;"><%= a.JobAssignment.Job ? a.JobAssignment.Job.Job_Title : '' %></small>
+                    <% } else { %>
+                        Assignment #<%= a.Assignment_ID %>
+                    <% } %>
+                </td>
+
+                <td><strong style="color:#4f46e5;"><%= a.Overall_Score %></strong></td>
+                <td><%= a.Appraisal_Date %></td>
+                
+                <td>
+                    <a href="/edit-appraisal/<%= a.Appraisal_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a>
+                    <form action="/delete-appraisal" method="POST" style="display:inline;" onsubmit="return confirm('Delete Appraisal?');">
+                        <input type="hidden" name="id" value="<%= a.Appraisal_ID %>">
+                        <button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+
+                <td>
+                    <% if(a.Appeals && a.Appeals.length > 0) { %>
+                        <% a.Appeals.forEach(ap => { %>
+                            <div class="appeal-box">
+                                <div style="display:flex;justify-content:space-between;">
+                                    <span><strong>Appeal:</strong> <%= ap.Reason %> (<%= ap.Approval_Status %>)</span>
+                                    <div>
+                                        <a href="/edit-appeal/<%= ap.Appeal_ID %>" style="color:#4f46e5;font-size:0.9em;"><i class="fas fa-edit"></i></a>
+                                        <form action="/delete-appeal" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');">
+                                            <input type="hidden" name="id" value="<%= ap.Appeal_ID %>">
+                                            <button class="btn-icon" style="color:red;font-size:0.9em;"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                <% }) %><% } else { %><span style="color:#aaa;">No Appeals</span><% } %>
-                <form action="/add-appeal" method="POST" style="margin-top:10px;"><input type="hidden" name="Appraisal_ID" value="<%= a.Appraisal_ID %>"><input type="text" name="Reason" placeholder="Reason..." required style="padding:5px;width:100px;border:1px solid #ddd;border-radius:4px;"><button type="submit" style="background:#333;color:white;border:none;padding:5px 8px;margin-left:5px;border-radius:4px;cursor:pointer;">Add</button></form>
-            </td></tr><% }) %></tbody>
+                        <% }) %>
+                    <% } else { %>
+                        <span style="color:#aaa;">No Appeals</span>
+                    <% } %>
+                    <form action="/add-appeal" method="POST" style="margin-top:10px;">
+                        <input type="hidden" name="Appraisal_ID" value="<%= a.Appraisal_ID %>">
+                        <input type="text" name="Reason" placeholder="Reason..." required style="padding:5px;width:100px;border:1px solid #ddd;border-radius:4px;">
+                        <button type="submit" style="background:#333;color:white;border:none;padding:5px 8px;margin-left:5px;border-radius:4px;cursor:pointer;">Add</button>
+                    </form>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
         </table>
     </div>
 </body>
