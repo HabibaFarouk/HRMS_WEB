@@ -13,11 +13,17 @@
             <label>Cycle Name</label>
             <input type="text" name="Cycle_Name" value="<%= cycle.Cycle_Name %>" required>
             
+            <label>Cycle Type</label>
+            <input type="text" name="Cycle_Type" value="<%= cycle.Cycle_Type || '' %>">
+            
             <label>Start Date</label>
             <input type="date" name="Start_Date" value="<%= cycle.Start_Date %>" required>
             
             <label>End Date</label>
             <input type="date" name="End_Date" value="<%= cycle.End_Date %>" required>
+            
+            <label>Submission Deadline</label>
+            <input type="date" name="Submission_Deadline" value="<%= cycle.Submission_Deadline || '' %>">
 
             <button type="submit" style="width:100%;padding:10px;background:#4f46e5;color:white;border:none;cursor:pointer;">Update Cycle</button>
             <a href="/cycles" style="display:block;text-align:center;margin-top:10px;text-decoration:none;color:#555;">Cancel</a>

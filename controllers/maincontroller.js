@@ -87,10 +87,26 @@ exports.getAssignments = async (req, res) => {
     const data = await safeFetch(JobAssignment, [Employee, Job]);
     res.render('assignments', { pageTitle: 'Assignments', assignments: data });
 };
-exports.getAddAssignment = (req, res) => res.render('addAssignment', { pageTitle: 'Add Assignment' });
+exports.getAddAssignment = async (req, res) => {
+    const employees = await safeFetch(Employee);
+    const jobs = await safeFetch(Job);
+    res.render('addAssignment', { pageTitle: 'Add Assignment', employees, jobs });
+};
 exports.postAddAssignment = async (req, res) => { await JobAssignment.create(req.body); res.redirect('/assignments'); };
-exports.getEditAssignment = async (req, res) => res.render('editAssignment', { pageTitle: 'Edit Assignment', assignment: await JobAssignment.findByPk(req.params.id) });
-exports.postEditAssignment = async (req, res) => { await JobAssignment.update(req.body, { where: { Assignment_ID: req.body.Assignment_ID } }); res.redirect('/assignments'); };
+exports.getEditAssignment = async (req, res) => {
+    const assign = await JobAssignment.findByPk(req.params.id);
+    const employees = await safeFetch(Employee);
+    const jobs = await safeFetch(Job);
+    res.render('editAssignment', { pageTitle: 'Edit Assignment', assign, employees, jobs });
+};
+exports.postEditAssignment = async (req, res) => { 
+    try {
+        await JobAssignment.update(req.body, { where: { Assignment_ID: req.body.Assignment_ID } }); 
+        res.redirect('/assignments');
+    } catch (e) {
+        res.send(`Error updating assignment: ${e.message}`);
+    }
+};
 exports.deleteAssignment = async (req, res) => { await JobAssignment.destroy({ where: { Assignment_ID: req.body.id } }); res.redirect('/assignments'); };
 
 // =========================================================
@@ -99,8 +115,8 @@ exports.deleteAssignment = async (req, res) => { await JobAssignment.destroy({ w
 exports.getCycles = async (req, res) => res.render('cycles', { pageTitle: 'Performance Cycles', cycles: await safeFetch(PerformanceCycle) });
 exports.getAddCycle = (req, res) => res.render('addCycle', { pageTitle: 'Add Cycle' });
 exports.postAddCycle = async (req, res) => { const nextId = await generateId(PerformanceCycle, 'Cycle_ID'); await PerformanceCycle.create({ Cycle_ID: nextId, ...req.body }); res.redirect('/cycles'); };
-exports.getEditCycle = async (req, res) => res.render('editCycle', { pageTitle: 'Edit Cycle', cycle: await PerformanceCycle.findByPk(req.params.id) });
-exports.postEditCycle = async (req, res) => { await PerformanceCycle.update(req.body, { where: { Cycle_ID: req.body.Cycle_ID } }); res.redirect('/cycles'); };
+exports.getEditCycle = async (req, res) => res.render('editPerformanceCycle', { pageTitle: 'Edit Cycle', cycle: await PerformanceCycle.findByPk(req.params.id) });
+exports.postEditCycle = async (req, res) => { try { await PerformanceCycle.update(req.body, { where: { Cycle_ID: req.body.Cycle_ID } }); res.redirect('/cycles'); } catch (err) { res.status(400).send(`Error updating cycle: ${err.message}`); } };
 exports.deleteCycle = async (req, res) => { await PerformanceCycle.destroy({ where: { Cycle_ID: req.body.id } }); res.redirect('/cycles'); };
 
 exports.getKPI = async (req, res) => res.render('kpi', { pageTitle: 'KPIs', kpis: await safeFetch(ObjectiveKPI) });
