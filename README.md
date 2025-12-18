@@ -9,129 +9,133 @@ A full-stack Human Resource Management System built with **Node.js**, **Express*
 4. [Prerequisites](#-prerequisites)
 5. [Installation & Setup](#-installation--setup)
 6. [Database Configuration](#-database-configuration)
-7. [Running the Application](#-running-the-application)
-8. [Project Structure](#-project-structure)
-9. [Dependencies](#-dependencies)
+## HR Management System (HRMS)
+
+A full-stack Human Resource Management System built with Node.js, Express, MySQL and Sequelize. This repo contains the server-side app, EJS views and Sequelize models for a simple HR portal.
+
+## Table of Contents
+- Project overview
+- Installation
+- Configuration
+- Run
+- Project structure
+- Dependencies
 
 ---
 
-## 🚀 Project Overview
-This HRMS is designed to streamline human resource operations by dividing functionality into three core pillars: **Organization Structure**, **Workforce Management**, and **Performance Tracking**. It features a dynamic frontend served via EJS templates and a robust MySQL backend managed by Sequelize ORM.
+## Project overview
+
+This application provides pages to manage organizations (universities, faculties, departments), workforce (employees, jobs, assignments) and performance (cycles, KPIs, appraisals). The UI is server-rendered with EJS templates and routes are defined in `routes/index.js` with controller logic in `controllers/mainController.js`.
 
 ---
 
-## 📖 Application Modules & Pages
+## Installation
 
-### A. Dashboard (`/`)
-* **Purpose:** The central landing page providing a high-level overview.
-* **Features:** Displays summary cards (e.g., Total Employees, Active Jobs, Pending Appraisals) and a sidebar for navigation.
+Requirements:
+- Node.js (v14+ recommended)
+- MySQL server
 
-### B. Organization Module
-Manages the structural hierarchy of the institution.
-* **Universities (`/universities`):** List, add, edit, and delete university records (Name, Acronym, Address).
-* **Faculties (`/faculties`):** Manage faculty records and their physical locations.
-* **Departments (`/departments`):** Categorize departments by Type (Academic vs. Administrative) and Location.
+Install project dependencies:
 
-### C. Workforce Module
-Manages people, roles, and contracts.
-* **Employees (`/employees`):** A directory of all staff. Tracks personal info, emergency contacts, and employment status (Active/Probation/Leave).
-* **Jobs (`/jobs`):** Catalog of job titles including salary ranges (Min/Max) and seniority levels.
-* **Contracts (`/contracts`):** Define employment templates (e.g., Permanent vs. Temporary, Remote vs. On-site).
-* **Job Assignments (`/assignments`):** The link between an Employee and a Job. Tracks the active status of an employee's current role.
-
-### D. Performance Module
-Handles evaluations and feedback loops.
-* **Performance Cycles (`/cycles`):** Define review periods (e.g., "Q1 2025") with start and end dates.
-* **KPIs (`/kpi`):** Manage Key Performance Indicators with specific measurement units and target values.
-* **Appraisals (`/appraisals`):** The core evaluation page.
-    * Displays `Overall_Score`.
-    * Links Appraisals to specific Performance Cycles.
-    * **Appeals System:** Includes an integrated workflow for employees to appeal scores. Managers can View, Edit (Approve/Reject), and Delete appeals directly from this page.
+```bash
+npm install
+```
 
 ---
 
-## 🛠 Tech Stack
+## Configuration
 
-* **Runtime:** Node.js
-* **Framework:** Express.js
-* **Database:** MySQL
-* **ORM:** Sequelize (for schema syncing and querying)
-* **Templating:** EJS (Embedded JavaScript)
-* **Styling:** Custom CSS with responsive Sidebar layout
+1. Edit database connection: `config/db.js` — update database name, username and password. Example:
 
----
+```js
+// config/db.js
+const { Sequelize } = require('sequelize');
+const sequelize = new Sequelize('HRMS_DB', 'root', 'password', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
+module.exports = sequelize;
+```
 
-## 📝 Prerequisites
+2. Port: the app runs on port `3000` by default (see `index.js`).
 
-Ensure you have the following installed before running the project:
-1.  **Node.js** (v14.x or higher)
-2.  **MySQL Server** (via MySQL Workbench, XAMPP, or standalone)
-
----
-
-## ⚙️ Installation & Setup
-
-1.  **Clone the Repository**
-    Extract the project files to your local machine.
-
-2.  **Install Dependencies**
-    Open your terminal in the project root folder and run:
-    ```bash
-    npm install
-    ```
+3. Environment variables: this project uses `dotenv` if you want to load credentials from a `.env` file — create one and load values in `config/db.js` if needed.
 
 ---
 
-## 🗄 Database Configuration
+## Run
 
-1.  **Create Database**
-    Open MySQL Workbench and create an empty database named `HRMS_DB`.
+Development (auto-restart):
 
-2.  **Configure Credentials**
-    Open `config/db.js` and update the settings:
-    ```javascript
-    const sequelize = new Sequelize('HRMS_DB', 'YOUR_USERNAME', 'YOUR_PASSWORD', {
-        host: 'localhost',
-        dialect: 'mysql'
-    });
-    ```
-    * Replace `'YOUR_USERNAME'` (default is usually `root`).
-    * Replace `'YOUR_PASSWORD'` with your local MySQL password.
+```bash
+npm run dev
+```
 
-3.  **Auto-Schema Sync**
-    You do **not** need to create tables manually. On the first run, `sequelize.sync()` will automatically generate all tables and relationships.
+Production / normal: 
+
+```bash
+node index.js
+```
+
+Open http://localhost:3000 in your browser.
 
 ---
 
-## ▶️ Running the Application
+## Project structure (key files)
 
-1.  **Start the Server**
-    * **Development Mode** (Auto-restarts on file save):
-        ```bash
-        npm run dev
-        ```
-    * **Standard Mode:**
-        ```bash
-        node index.js
-        ```
-
-2.  **Access in Browser**
-    Go to: `http://localhost:3000`
-
----
-
-## 📂 Project Structure
-
-```text
+```
 HRMS_WEB/
-├── config/             # DB Connection (db.js)
-├── controllers/        # Route Logic (mainController.js)
-├── models/             # Database Models (Employee.js, Job.js, etc.)
-├── public/             # Static Assets (CSS, Images)
-├── routes/             # URL Routing (index.js)
-├── views/              # Frontend Templates
-│   ├── partials/       # Reusable components (sidebar.ejs)
-│   ├── layouts/        # (Optional) Layout files
-│   └── *.ejs           # Individual pages (dashboard, employees, etc.)
-├── index.js            # Main Application Entry Point
-└── package.json        # Dependencies & Scripts
+├─ index.js                      # App entry (Express + Sequelize sync + routes)
+├─ package.json                  # npm scripts + dependencies
+├─ config/
+│  └─ db.js                      # Sequelize connection
+├─ controllers/
+│  └─ mainController.js          # Route handlers for pages and form posts
+├─ models/
+│  ├─ Employee.js
+│  ├─ University.js
+│  ├─ Faculty.js
+│  ├─ Department.js
+│  ├─ Job.js
+│  ├─ JobAssignment.js
+│  ├─ Contract.js
+│  ├─ PerformanceCycle.js
+│  ├─ ObjectiveKPI.js
+│  ├─ Appraisal.js
+│  └─ Appeal.js
+├─ routes/
+│  └─ index.js                   # All route definitions
+├─ views/
+│  ├─ partials/                  # sidebar.ejs etc.
+│  └─ *.ejs                      # pages: dashboard, employees, addEmployee, universities, faculties, departments, jobs, assignments, cycles, kpi, appraisals, etc.
+├─ public/                       # static CSS / images (if present)
+```
+
+---
+
+## Dependencies
+
+Main runtime dependencies are listed in `package.json`. At time of writing the project uses:
+
+- `express` (web framework)
+- `ejs` (templating)
+- `sequelize` (ORM)
+- `mysql2` (MySQL driver)
+- `body-parser` (request parsing)
+- `dotenv` (env variables)
+
+Dev dependency:
+
+- `nodemon` (dev server auto-restart)
+
+Exact versions are in `package.json` — to install the same versions run `npm install` in the project root.
+
+---
+
+## Notes & Tips
+
+- The app calls `sequelize.sync()` on startup to create tables based on models if they don't exist — ensure your DB user has permissions to create tables.
+- Routes and views follow a simple convention — edit `controllers/mainController.js` if you need to change behavior of forms or data handling.
+- I removed the Contracts listing from the main sidebar during recent UI tweaks; routes for contracts were also removed from `routes/index.js`.
+
+If you'd like, I can also add a short `.env.example` and update `config/db.js` to read from environment variables.
