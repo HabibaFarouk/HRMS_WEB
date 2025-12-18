@@ -5,34 +5,39 @@
     <title>HR Portal | Add Department</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .form-box { background: white; width: 400px; padding: 40px; border-radius: 8px; }
-        label { display: block; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .form-box { background: white; width: 100%; max-width: 500px; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
         input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 4px; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        a { display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none; }
     </style>
 </head>
 <body>
     <div class="form-box">
         <h2>Add Department</h2>
         <form action="/add-department" method="POST">
-            <label>Department Name</label>
+            <label>Department Name *</label>
             <input type="text" name="Department_Name" required>
+            
+            <label>Department ID</label>
+            <input type="number" name="Department_ID">
             
             <label>Type</label>
             <select name="Department_Type">
+                <option value="">Select Type</option>
                 <option value="Academic">Academic</option>
                 <option value="Administrative">Administrative</option>
             </select>
             
-            <label>Email</label>
-            <input type="email" name="Contact_Email">
-            
             <label>Location</label>
             <input type="text" name="Location">
+            
+            <label>Contact Email</label>
+            <input type="email" name="Contact_Email">
 
             <button type="submit" class="btn">Save Department</button>
-            <a href="/departments" style="display:block; text-align:center; margin-top:15px; color:#64748b; text-decoration:none;">Cancel</a>
+            <a href="/departments">Cancel</a>
         </form>
     </div>
 </body>

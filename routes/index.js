@@ -41,13 +41,6 @@ router.get('/edit-job/:id', mainController.getEditJob);
 router.post('/edit-job', mainController.postEditJob);
 router.post('/delete-job', mainController.deleteJob);
 
-router.get('/contracts', mainController.getContracts);
-router.get('/add-contract', mainController.getAddContract);
-router.post('/add-contract', mainController.postAddContract);
-router.get('/edit-contract/:id', mainController.getEditContract);
-router.post('/edit-contract', mainController.postEditContract);
-router.post('/delete-contract', mainController.deleteContract);
-
 router.get('/assignments', mainController.getAssignments);
 router.get('/add-assignment', mainController.getAddAssignment);
 router.post('/add-assignment', mainController.postAddAssignment);

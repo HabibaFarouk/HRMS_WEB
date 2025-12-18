@@ -32,7 +32,18 @@
                     <td>#<%= e.Employee_ID %></td>
                     <td><strong><%= e.First_Name %> <%= e.Last_Name %></strong><br><small style="color:#64748b"><%= e.Work_Email %></small></td>
                     <td><%= e.Mobile_Phone %></td>
-                    <td><span style="color:green;font-weight:bold;"><%= e.Employment_Status %></span></td>
+                    <td>
+                        <% 
+                            let statusColor = '#4f46e5';
+                            let status = e.Employment_Status;
+                            if (status === 'Active' || status === 'Probation') {
+                                statusColor = '#059669';
+                            } else if (status === 'Retired' || status === 'Leave') {
+                                statusColor = '#ef4444';
+                            }
+                        %>
+                        <span style="color:<%= statusColor %>;font-weight:bold;"><%= e.Employment_Status %></span>
+                    </td>
                     <td>
                         <a href="/edit-employee/<%= e.Employee_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a>
                         <form action="/delete-employee" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');">

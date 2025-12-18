@@ -8,7 +8,7 @@
 <body>
     <%- include('partials/sidebar') %>
     <div class="main">
-        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Jobs</h1><a href="/add-job" class="btn-add">+ Add Job</a></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;align-items:center;"><h1>Jobs</h1><a href="/add-job" class="btn-add">+ Add Job</a></div>
         <table>
             <thead><tr><th>Title</th><th>Salary</th><th>Level</th><th>Actions</th></tr></thead>
             <tbody><% jobs.forEach(j => { %><tr><td><strong><%= j.Job_Title %></strong></td><td>$<%= j.Min_Salary %> - $<%= j.Max_Salary %></td><td><%= j.Job_Level %></td><td><a href="/edit-job/<%= j.Job_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a><form action="/delete-job" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= j.Job_ID %>"><button class="btn-icon" style="color:red;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>

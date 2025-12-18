@@ -1,8 +1,43 @@
-<!DOCTYPE html><html><body style="font-family:sans-serif;padding:50px;background:#f3f4f6;">
-<div style="background:white;padding:30px;width:400px;margin:auto;"><h2>Add Cycle</h2>
-<form action="/add-cycle" method="POST">
-    <label>Name:</label><input type="text" name="Cycle_Name" required style="width:100%;margin:10px 0;">
-    <label>Start:</label><input type="date" name="Start_Date" required style="width:100%;margin:10px 0;">
-    <label>End:</label><input type="date" name="End_Date" required style="width:100%;margin:10px 0;">
-    <button type="submit" style="width:100%;padding:10px;background:#4f46e5;color:white;">Save</button>
-</form></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HR Portal | Add Performance Cycle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f3f4f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .form-box { background: white; width: 100%; max-width: 500px; padding: 40px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
+        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 4px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        a { display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>Add Performance Cycle</h2>
+        <form action="/add-cycle" method="POST">
+            <label>Cycle ID</label>
+            <input type="number" name="Cycle_ID">
+            
+            <label>Cycle Name *</label>
+            <input type="text" name="Cycle_Name" required>
+            
+            <label>Cycle Type</label>
+            <input type="text" name="Cycle_Type" placeholder="e.g., Annual, Quarterly">
+            
+            <label>Start Date *</label>
+            <input type="date" name="Start_Date" required>
+            
+            <label>End Date *</label>
+            <input type="date" name="End_Date" required>
+            
+            <label>Submission Deadline</label>
+            <input type="date" name="Submission_Deadline">
+
+            <button type="submit" class="btn">Save Cycle</button>
+            <a href="/cycles">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -45,6 +45,33 @@
             flex-direction: column;
             padding: 24px 0;
             box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, width 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--sidebar-bg);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--sidebar-hover);
         }
 
         .brand {
@@ -249,7 +276,6 @@
         <div class="menu-category">Workforce</div>
         <ul class="nav-links">
             <li><a href="/employees"><i class="fas fa-id-badge"></i> Employees</a></li>
-            <li><a href="/contracts"><i class="fas fa-file-signature"></i> Contracts</a></li>
             <li><a href="/jobs"><i class="fas fa-briefcase"></i> Jobs</a></li>
             <li><a href="/assignments"><i class="fas fa-network-wired"></i> Assignments</a></li>
         </ul>
@@ -263,6 +289,7 @@
     </aside>
 
     <main class="main-content">
+        <button id="sidebarToggle" class="toggle-btn"><i class="fas fa-bars"></i></button>
         <div class="top-header">
             <span><i class="far fa-calendar-alt"></i> Today: <script>document.write(new Date().toLocaleDateString())</script></span>
             <div class="user-profile">
@@ -347,6 +374,23 @@
         </div>
 
     </main>
+
+    <script>
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        // Load sidebar state from localStorage
+        const sidebarHidden = localStorage.getItem('sidebarHidden') === 'true';
+        if (sidebarHidden) {
+            sidebar.classList.add('hidden');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            const isHidden = sidebar.classList.contains('hidden');
+            localStorage.setItem('sidebarHidden', isHidden);
+        });
+    </script>
 
 </body>
 </html>

@@ -8,7 +8,7 @@
 <body>
     <%- include('partials/sidebar') %>
     <div class="main">
-        <div style="display:flex;justify-content:space-between;margin-bottom:20px;"><h1>Universities</h1><a href="/add-university" class="btn-add">+ Add University</a></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;align-items:center;"><h1>Universities</h1><a href="/add-university" class="btn-add">+ Add University</a></div>
         <table>
             <thead><tr><th>Name</th><th>Acronym</th><th>Address</th><th>Actions</th></tr></thead>
             <tbody><% universities.forEach(u => { %><tr><td><strong><%= u.University_Name %></strong></td><td><%= u.Acronym %></td><td><%= u.Address %></td><td><a href="/edit-university/<%= u.University_ID %>" style="color:#4f46e5;"><i class="fas fa-edit"></i></a><form action="/delete-university" method="POST" style="display:inline;" onsubmit="return confirm('Delete?');"><input type="hidden" name="id" value="<%= u.University_ID %>"><button style="border:none;background:none;color:red;cursor:pointer;"><i class="fas fa-trash"></i></button></form></td></tr><% }) %></tbody>

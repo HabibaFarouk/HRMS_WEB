@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --sidebar-bg: #1e293b; --accent-primary: #4f46e5; --main-bg: #f3f4f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--main-bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--main-bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
         
         .form-container {
-            background: white; width: 500px; padding: 40px; border-radius: 12px;
+            background: white; width: 100%; max-width: 600px; padding: 40px; border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         h2 { margin-top: 0; color: #1e293b; margin-bottom: 20px; }
@@ -17,13 +17,16 @@
         label { display: block; margin-bottom: 5px; color: #64748b; font-size: 14px; font-weight: 600; }
         input, select { width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
         input:focus { outline: none; border-color: var(--accent-primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-row .form-group { margin-bottom: 0; }
 
         .btn-submit {
             width: 100%; background: var(--accent-primary); color: white; border: none;
-            padding: 12px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px;
+            padding: 12px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px;
         }
         .btn-submit:hover { background: #4338ca; }
         .back-link { display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none; font-size: 14px; }
+        .section-title { margin-top: 25px; margin-bottom: 15px; font-size: 14px; font-weight: 700; text-transform: uppercase; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -32,33 +35,88 @@
         <h2><i class="fas fa-user-plus"></i> Add New Employee</h2>
         
         <form action="/add-employee" method="POST">
+            <!-- Personal Information -->
+            <div class="section-title">Personal Information</div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Employee ID *</label>
+                    <input type="number" name="Employee_ID" required>
+                </div>
+                <div class="form-group">
+                    <label>Employment Status</label>
+                    <select name="Employment_Status">
+                        <option value="Active">Active</option>
+                        <option value="Probation">Probation</option>
+                        <option value="Leave">On Leave</option>
+                        <option value="Retired">Retired</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" name="First_Name" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" name="Last_Name" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Work Email</label>
+                    <input type="email" name="Work_Email">
+                </div>
+                <div class="form-group">
+                    <label>Mobile Phone</label>
+                    <input type="text" name="Mobile_Phone">
+                </div>
+            </div>
+
+            <!-- Emergency Contact Information -->
+            <div class="section-title">Emergency Contact</div>
+            
             <div class="form-group">
-                <label>First Name</label>
-                <input type="text" name="First_Name" required>
+                <label>Emergency Contact Name *</label>
+                <input type="text" name="Emergency_Contact_Name" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Emergency Contact Phone *</label>
+                    <input type="text" name="Emergency_Contact_Phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Relationship *</label>
+                    <input type="text" name="Emergency_Contact_Relationship" required>
+                </div>
+            </div>
+
+            <!-- Residential Address -->
+            <div class="section-title">Residential Address</div>
+            
+            <div class="form-group">
+                <label>Street Address *</label>
+                <input type="text" name="Residential_Street" required>
             </div>
 
             <div class="form-group">
-                <label>Last Name</label>
-                <input type="text" name="Last_Name" required>
+                <label>Area *</label>
+                <input type="text" name="Residential_Area" required>
             </div>
 
-            <div class="form-group">
-                <label>Work Email</label>
-                <input type="email" name="Email" required>
-            </div>
-
-            <div class="form-group">
-                <label>Mobile Number</label>
-                <input type="text" name="Phone_Number">
-            </div>
-
-            <div class="form-group">
-                <label>Status</label>
-                <select name="Employment_Status">
-                    <option value="Active">Active</option>
-                    <option value="Probation">Probation</option>
-                    <option value="Leave">On Leave</option>
-                </select>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>City *</label>
+                    <input type="text" name="Residential_City" required>
+                </div>
+                <div class="form-group">
+                    <label>Country *</label>
+                    <input type="text" name="Residential_Country" required>
+                </div>
             </div>
 
             <button type="submit" class="btn-submit">Save Employee</button>
